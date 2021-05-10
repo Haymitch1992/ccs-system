@@ -1,0 +1,188 @@
+<template>
+  <!-- <div class="new-page" :style="`min-height: ${pageMinHeight}px`">
+
+  </div> -->
+  <div class="initiative">
+    <a-row :gutter="[24, 24]">
+      <a-col :sm="24" :md="12" :xl="4">
+        <chart-card :loading="loading" title="设备数量" total="2" :status="2">
+        </chart-card>
+      </a-col>
+      <a-col :sm="24" :md="12" :xl="4">
+        <chart-card
+          :loading="loading"
+          title="进站客流"
+          total="1234"
+          :status="1"
+        >
+        </chart-card>
+      </a-col>
+      <a-col :sm="24" :md="12" :xl="4">
+        <chart-card :loading="loading" title="换乘客流" total="100" :status="1">
+        </chart-card>
+      </a-col>
+      <a-col :sm="24" :md="12" :xl="4">
+        <chart-card :loading="loading" title="出站客流" total="200" :status="1">
+        </chart-card>
+      </a-col>
+      <a-col :sm="24" :md="12" :xl="4">
+        <chart-card
+          :loading="loading"
+          title="站内状态"
+          total="演练"
+          :status="2"
+        >
+        </chart-card>
+      </a-col>
+      <a-col :sm="24" :md="12" :xl="4">
+        <chart-card
+          :loading="loading"
+          title="清客状态"
+          total="有人"
+          :status="1"
+        >
+        </chart-card>
+      </a-col>
+    </a-row>
+    <!-- 设备列表 -->
+    <a-form class="form">
+      <a-row :gutter="[24, 24]">
+        <a-col :sm="24" :md="12" :xl="8">
+          <div class="card-box">
+            <a-form-item label="可用算法">
+              <a-select placeholder="请选择可用算法">
+                <a-select-option value="王同学">王同学</a-select-option>
+                <a-select-option value="李同学">李同学</a-select-option>
+                <a-select-option value="黄同学">黄同学</a-select-option>
+              </a-select>
+            </a-form-item>
+            <a-form-item label="危险源选择">
+              <a-select placeholder="请选择危险源">
+                <a-select-option value="王同学">王同学</a-select-option>
+                <a-select-option value="李同学">李同学</a-select-option>
+                <a-select-option value="黄同学">黄同学</a-select-option>
+              </a-select>
+            </a-form-item>
+            <div class="btn-line">
+              <a-button type="primary">
+                确定
+              </a-button>
+            </div>
+          </div>
+        </a-col>
+        <a-col :sm="24" :md="12" :xl="16">
+          <div class="card-box">
+            <a-row :gutter="[24, 24]">
+              <a-col :sm="24" :md="12" :xl="6">
+                <a-form-item label="X轴">
+                  <a-input placeholder="100" v-model="dotX" />
+                </a-form-item>
+              </a-col>
+              <a-col :sm="24" :md="12" :xl="6">
+                <a-form-item label="Y轴">
+                  <a-input placeholder="100" v-model="dotY" />
+                </a-form-item>
+              </a-col>
+              <a-col :sm="24" :md="12" :xl="6"> </a-col>
+              <a-col :sm="24" :md="12" :xl="6">
+                <a-form-item label="灾害半径">
+                  <a-input addonAfter="米" />
+                </a-form-item>
+              </a-col>
+            </a-row>
+            <div class="select-box" @click="handleClick($event)">
+              <img src="../../assets/img/station-map.png" alt="" />
+              <span
+                class="dot"
+                :style="{ left: dotX + 'px', top: dotY + 'px' }"
+              ></span>
+            </div>
+            <div class="btn-line">
+              <a-button type="primary">
+                开始
+              </a-button>
+              <a-button type="primary">
+                终止
+              </a-button>
+            </div>
+          </div>
+        </a-col>
+      </a-row>
+    </a-form>
+    <aid-modal></aid-modal>
+    <!-- 算法选择 -->
+    <!-- 获取坐标 -->
+  </div>
+</template>
+
+<script>
+import { mapState } from 'vuex';
+import ChartCard from '../../components/card/ChartCard';
+import aidModal from '../../components/modal/modal';
+
+export default {
+  name: 'initiative',
+  components: { ChartCard, aidModal },
+  data() {
+    return {
+      loading: false,
+      screenX: 0,
+      screenY: 0,
+      dotX: 300,
+      dotY: 100,
+    };
+  },
+  computed: {
+    ...mapState('setting', ['pageMinHeight']),
+  },
+  methods: {
+    touchmove(event) {
+      this.screenX = event.offsetX;
+      this.screenY = event.offsetY;
+    },
+    handleClick(event) {
+      this.screenX = event.offsetX;
+      this.screenY = event.offsetY;
+      this.dotX = event.offsetX - 14 < 0 ? 0 : event.offsetX - 14;
+      this.dotY = event.offsetY - 14 < 0 ? 0 : event.offsetY - 14;
+    },
+  },
+};
+</script>
+
+<style scoped lang="less">
+.card-box {
+  background: #fff;
+  padding: 20px;
+}
+.select-box {
+  width: 100%;
+  position: relative;
+  background: #f4f7ff;
+  height: 620px;
+  img {
+    width: 800px;
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  .dot {
+    width: 13px;
+    height: 13px;
+    background: #e92d46;
+    border-radius: 50%;
+    position: absolute;
+    display: block;
+    border: 8px solid #ecb9c0;
+    box-sizing: content-box;
+  }
+}
+.btn-line {
+  text-align: center;
+  padding: 10px 0;
+  .ant-btn {
+    margin: 0 10px;
+  }
+}
+</style>
