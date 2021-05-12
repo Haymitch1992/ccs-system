@@ -50,17 +50,14 @@
         <a-col :sm="24" :md="12" :xl="8">
           <div class="card-box">
             <a-form-item label="可用算法">
-              <a-select placeholder="请选择可用算法">
-                <a-select-option value="王同学">王同学</a-select-option>
-                <a-select-option value="李同学">李同学</a-select-option>
-                <a-select-option value="黄同学">黄同学</a-select-option>
+              <a-select placeholder="请选择可用算法" v-model="algorithm">
+                <a-select-option value="id1">id1</a-select-option>
               </a-select>
             </a-form-item>
             <a-form-item label="危险源选择">
-              <a-select placeholder="请选择危险源">
-                <a-select-option value="王同学">王同学</a-select-option>
-                <a-select-option value="李同学">李同学</a-select-option>
-                <a-select-option value="黄同学">黄同学</a-select-option>
+              <a-select placeholder="请选择危险源" v-model="event_type">
+                <a-select-option value="1">火灾</a-select-option>
+                <a-select-option value="2">打架</a-select-option>
               </a-select>
             </a-form-item>
             <div class="btn-line">
@@ -86,7 +83,7 @@
               <a-col :sm="24" :md="12" :xl="6"> </a-col>
               <a-col :sm="24" :md="12" :xl="6">
                 <a-form-item label="灾害半径">
-                  <a-input addonAfter="米" />
+                  <a-input addonAfter="米" v-model="radius" />
                 </a-form-item>
               </a-col>
             </a-row>
@@ -98,10 +95,10 @@
               ></span>
             </div>
             <div class="btn-line">
-              <a-button type="primary">
+              <a-button type="primary" @click="postStartSumulat">
                 开始
               </a-button>
-              <a-button type="primary">
+              <a-button type="primary" @click="postStopSumulat">
                 终止
               </a-button>
             </div>
@@ -119,6 +116,7 @@
 import { mapState } from 'vuex';
 import ChartCard from '../../components/card/ChartCard';
 import aidModal from '../../components/modal/modal';
+import { startSimulat, stopSimulat } from '@/services/user';
 
 export default {
   name: 'initiative',
@@ -130,12 +128,42 @@ export default {
       screenY: 0,
       dotX: 300,
       dotY: 100,
+      radius: 15,
+      event_type: '1',
+      algorithm: 'id1',
     };
   },
   computed: {
     ...mapState('setting', ['pageMinHeight']),
   },
   methods: {
+    postStopSumulat() {
+      let questID = new Date().getTime();
+      let obj = [{}];
+      stopSimulat(questID, obj).then(this.afterStopSumulat);
+    },
+    afterStopSumulat(res) {
+      console.log(res);
+      this.message.info(res.data.message);
+    },
+    postStartSumulat() {
+      let questID = new Date().getTime();
+      let obj = [
+        {
+          event_type: 1, //1表示火灾,2表示打架
+          pos_x: this.dotX, //事件位置横坐标
+          pos_y: this.dotY, //事件位置纵坐标
+          radius: this.radius, //事件半径
+          area: 1, //区域ID
+          algorithm: this.algorithm, //算法名称，目前只有一个算法
+        },
+      ];
+      startSimulat(questID, obj).then(this.afterStartSumulat);
+    },
+    afterStartSumulat(res) {
+      this.message.info(res.data.message);
+      console.log(res);
+    },
     touchmove(event) {
       this.screenX = event.offsetX;
       this.screenY = event.offsetY;
@@ -183,6 +211,9 @@ export default {
   padding: 10px 0;
   .ant-btn {
     margin: 0 10px;
+    border-radius: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
   }
 }
 </style>

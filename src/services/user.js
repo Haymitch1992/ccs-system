@@ -1,4 +1,4 @@
-import {LOGIN, ROUTES} from '@/services/api'
+import {LOGIN, ROUTES,START_SIMULAT,STOP_SIMULAT} from '@/services/api'
 import {request, METHOD, removeAuthorization} from '@/utils/request'
 
 /**
@@ -13,6 +13,21 @@ export async function login(name, password) {
     password: password
   })
 }
+// 开启仿真
+export async function startSimulat(requestId,obj) {
+  return request(START_SIMULAT, METHOD.POST, {
+    requestId: requestId, // 请求时间戳
+    data: obj // 
+  })
+}
+// 开启仿真
+export async function stopSimulat(requestId,obj) {
+  return request(STOP_SIMULAT, METHOD.POST, {
+    requestId: requestId, // 请求时间戳
+    data: obj // 
+  })
+}
+
 
 export async function getRoutesConfig() {
   return request(ROUTES, METHOD.GET)
@@ -30,5 +45,7 @@ export function logout() {
 export default {
   login,
   logout,
-  getRoutesConfig
+  getRoutesConfig,
+  startSimulat,
+  stopSimulat
 }
