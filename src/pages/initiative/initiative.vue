@@ -56,8 +56,8 @@
             </a-form-item>
             <a-form-item label="危险源选择">
               <a-select placeholder="请选择危险源" v-model="event_type">
-                <a-select-option value="1">火灾</a-select-option>
-                <a-select-option value="2">打架</a-select-option>
+                <a-select-option :value="1">火灾</a-select-option>
+                <a-select-option :value="2">打架</a-select-option>
               </a-select>
             </a-form-item>
             <div class="btn-line">
@@ -83,7 +83,7 @@
               <a-col :sm="24" :md="12" :xl="6"> </a-col>
               <a-col :sm="24" :md="12" :xl="6">
                 <a-form-item label="灾害半径">
-                  <a-input addonAfter="米" v-model="radius" />
+                  <a-input addonAfter="米" v-model.number="radius" />
                 </a-form-item>
               </a-col>
             </a-row>
@@ -95,10 +95,10 @@
               ></span>
             </div>
             <div class="btn-line">
-              <a-button type="primary" @click="postStartSumulat">
+              <a-button type="primary" @click="postStartSimulat">
                 开始
               </a-button>
-              <a-button type="primary" @click="postStopSumulat">
+              <a-button type="primary" @click="postStopSimulat">
                 终止
               </a-button>
             </div>
@@ -114,9 +114,10 @@
 
 <script>
 import { mapState } from 'vuex';
+import { message } from 'ant-design-vue';
 import ChartCard from '../../components/card/ChartCard';
 import aidModal from '../../components/modal/modal';
-import { startSimulat, stopSimulat } from '@/services/user';
+import { startSimulat, stopSimulat, statusSimulat } from '@/services/user';
 
 export default {
   name: 'initiative',
@@ -126,31 +127,56 @@ export default {
       loading: false,
       screenX: 0,
       screenY: 0,
-      dotX: 300,
-      dotY: 100,
-      radius: 15,
-      event_type: '1',
+      dotX: 0,
+      dotY: 0,
+      radius: 0,
+      event_type: 1,
       algorithm: 'id1',
+      statuts: false,
     };
   },
   computed: {
     ...mapState('setting', ['pageMinHeight']),
   },
+  mounted() {
+    // 获取仿真状态
+    this.getStatusSimulat();
+  },
   methods: {
-    postStopSumulat() {
+    getStatusSimulat() {
+      statusSimulat().then((res) => {
+        if (res.data.code === 200 && res.data.result.algorithm) {
+          let obj = res.data.result;
+          this.dotX = obj.pos_x;
+          this.dotY = obj.pos_y;
+          this.radius = obj.radius;
+          this.algorithm = obj.algorithm;
+          this.event_type = obj.event_type;
+          this.statuts = true;
+        } else {
+          this.statuts = false;
+        }
+      });
+    },
+    postStopSimulat() {
       let questID = new Date().getTime();
       let obj = [{}];
-      stopSimulat(questID, obj).then(this.afterStopSumulat);
+      stopSimulat(questID, obj).then(this.afterStopSimulat);
     },
-    afterStopSumulat(res) {
+    afterStopSimulat(res) {
       console.log(res);
-      this.message.info(res.data.message);
+      if (res.data.code === 200) {
+        message.success('仿真已停止');
+      } else {
+        message.error(res.data.message);
+      }
+      this.statuts = false;
     },
-    postStartSumulat() {
+    postStartSimulat() {
       let questID = new Date().getTime();
       let obj = [
         {
-          event_type: 1, //1表示火灾,2表示打架
+          event_type: this.event_type, //1表示火灾,2表示打架
           pos_x: this.dotX, //事件位置横坐标
           pos_y: this.dotY, //事件位置纵坐标
           radius: this.radius, //事件半径
@@ -158,10 +184,16 @@ export default {
           algorithm: this.algorithm, //算法名称，目前只有一个算法
         },
       ];
-      startSimulat(questID, obj).then(this.afterStartSumulat);
+      startSimulat(questID, obj).then(this.afterStartSimulat);
     },
-    afterStartSumulat(res) {
-      this.message.info(res.data.message);
+    afterStartSimulat(res) {
+      this.statuts = true;
+      if (res.data.code === 200) {
+        message.success('仿真已开始');
+      } else {
+        message.error(res.data.message);
+      }
+
       console.log(res);
     },
     touchmove(event) {
@@ -169,6 +201,9 @@ export default {
       this.screenY = event.offsetY;
     },
     handleClick(event) {
+      if (event.target.nodeName === 'SPAN') {
+        return;
+      }
       this.screenX = event.offsetX;
       this.screenY = event.offsetY;
       this.dotX = event.offsetX - 14 < 0 ? 0 : event.offsetX - 14;

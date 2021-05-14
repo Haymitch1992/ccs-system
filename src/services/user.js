@@ -1,4 +1,4 @@
-import {LOGIN, ROUTES,START_SIMULAT,STOP_SIMULAT} from '@/services/api'
+import {LOGIN, ROUTES,START_SIMULAT,STOP_SIMULAT,STATUS_SIMULAT} from '@/services/api'
 import {request, METHOD, removeAuthorization} from '@/utils/request'
 
 /**
@@ -20,14 +20,17 @@ export async function startSimulat(requestId,obj) {
     data: obj // 
   })
 }
-// 开启仿真
+// 停止仿真
 export async function stopSimulat(requestId,obj) {
   return request(STOP_SIMULAT, METHOD.POST, {
     requestId: requestId, // 请求时间戳
     data: obj // 
   })
 }
-
+// 获取仿真数据
+export async function statusSimulat() {
+  return request(STATUS_SIMULAT, METHOD.GET)
+}
 
 export async function getRoutesConfig() {
   return request(ROUTES, METHOD.GET)
