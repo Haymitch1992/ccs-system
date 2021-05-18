@@ -51,7 +51,7 @@
           <div class="card-box">
             <a-form-item label="可用算法">
               <a-select placeholder="请选择可用算法" v-model="algorithm">
-                <a-select-option value="id1">id1</a-select-option>
+                <a-select-option value="ca">ca</a-select-option>
               </a-select>
             </a-form-item>
             <a-form-item label="危险源选择">
@@ -131,7 +131,7 @@ export default {
       dotY: 0,
       radius: 0,
       event_type: 1,
-      algorithm: 'id1',
+      algorithm: 'ca',
       statuts: false,
     };
   },
