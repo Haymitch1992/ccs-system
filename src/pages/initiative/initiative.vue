@@ -80,20 +80,30 @@
                   <a-input placeholder="100" v-model="dotY" />
                 </a-form-item>
               </a-col>
-              <a-col :sm="24" :md="12" :xl="6"> </a-col>
+              <a-col :sm="24" :md="12" :xl="6">
+                <a-form-item label="区域">
+                  <a-input disabled v-model="area" />
+                </a-form-item>
+              </a-col>
               <a-col :sm="24" :md="12" :xl="6">
                 <a-form-item label="灾害半径">
                   <a-input addonAfter="米" v-model.number="radius" />
                 </a-form-item>
               </a-col>
             </a-row>
-            <div class="select-box" @click="handleClick($event)">
-              <img src="../../assets/img/station-map.png" alt="" />
-              <span
-                class="dot"
-                :style="{ left: dotX + 'px', top: dotY + 'px' }"
-              ></span>
+            <div>
+              <div class="select-box" @click="handleClick($event)">
+                <img src="../../assets/img/station-map-1.png" alt="" />
+                <span
+                  class="dot"
+                  :style="{ left: dotX + 'px', top: dotY + 'px' }"
+                ></span>
+              </div>
+              <div class="station-down">
+                <img src="../../assets/img/station-map-2.png" alt="" />
+              </div>
             </div>
+
             <div class="btn-line">
               <a-button type="primary" @click="postStartSimulat">
                 开始
@@ -133,6 +143,7 @@ export default {
       event_type: 1,
       algorithm: 'ca',
       statuts: false,
+      area: 1,
     };
   },
   computed: {
@@ -152,6 +163,7 @@ export default {
           this.radius = obj.radius;
           this.algorithm = obj.algorithm;
           this.event_type = obj.event_type;
+          this.area = obj.area;
           this.statuts = true;
         } else {
           this.statuts = false;
@@ -180,7 +192,7 @@ export default {
           pos_x: this.dotX, //事件位置横坐标
           pos_y: this.dotY, //事件位置纵坐标
           radius: this.radius, //事件半径
-          area: 1, //区域ID
+          area: this.area, //区域ID
           algorithm: this.algorithm, //算法名称，目前只有一个算法
         },
       ];
@@ -206,8 +218,9 @@ export default {
       }
       this.screenX = event.offsetX;
       this.screenY = event.offsetY;
-      this.dotX = event.offsetX - 14 < 0 ? 0 : event.offsetX - 14;
-      this.dotY = event.offsetY - 14 < 0 ? 0 : event.offsetY - 14;
+      this.dotX = event.offsetX - 14;
+      this.dotY = event.offsetY - 14;
+      this.area = this.dotY < 120 ? 1 : 2;
     },
   },
 };
@@ -218,11 +231,24 @@ export default {
   background: #fff;
   padding: 20px;
 }
+.station-down {
+  width: 100%;
+  position: relative;
+  background: #f4f7ff;
+  height: 343px;
+  img {
+    width: 800px;
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
 .select-box {
   width: 100%;
   position: relative;
   background: #f4f7ff;
-  height: 620px;
+  height: 269px;
   img {
     width: 800px;
     display: block;
