@@ -127,6 +127,7 @@ import { mapState } from 'vuex';
 import { message } from 'ant-design-vue';
 import ChartCard from '../../components/card/ChartCard';
 import aidModal from '../../components/modal/modal';
+
 import { startSimulat, stopSimulat, statusSimulat } from '@/services/user';
 
 export default {

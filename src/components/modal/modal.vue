@@ -10,7 +10,7 @@
       <div>
         <!-- 招援图像 -->
         <div class="video-box">
-          <img src="../../assets/img/icon-9.png" alt="" class="icon-9" />
+          <communication></communication>
           <!-- 按钮行 -->
           <!-- <div class="btn-line">
             <span class="btn-item">
@@ -34,7 +34,7 @@
           </div> -->
         </div>
         <!-- 招援情况 -->
-        <div class="condition">
+        <div class="condition" style="display:none;">
           <a-row :gutter="[10, 10]">
             <a-col :sm="24" :md="12" :xl="5">
               <div class="modal-item-title">
@@ -65,7 +65,7 @@
           </a-row>
         </div>
         <!-- 招援标签 -->
-        <div class="tag-line">
+        <div class="tag-line" style="display:none;">
           <a-tag
             :color="index === activeLabelNum ? 'blue' : ''"
             v-for="(item, index) in labelList"
@@ -80,10 +80,13 @@
 </template>
 
 <script>
+import io from 'socket.io-client';
+import communication from '../../components/communication';
 export default {
+  components: { communication },
   data() {
     return {
-      modalVisible: true,
+      modalVisible: false,
       labelList: [
         '招援协助_候车区',
         '招援协助_客服区',
@@ -93,6 +96,14 @@ export default {
       ],
       activeLabelNum: 0,
     };
+  },
+  mounted() {
+    let socket = io.connect('https://172.51.215.158:443/', {
+      transports: ['websocket'],
+    });
+    socket.on('roomid', (roomid) => {
+      this.modalVisible = true;
+    });
   },
   methods: {
     handleOk() {
