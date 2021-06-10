@@ -53,7 +53,7 @@ export default {
 
     var pc = null;
     var pcConfig = null;
-    var roomid = 22; // 房间号
+    var roomid = 25; // 房间号
     var socket = null;
 
     var offerdesc = null;
@@ -389,9 +389,9 @@ export default {
           if (e.candidate) {
             sendMessage(roomid, {
               type: 'candidate',
-              label: event.candidate.sdpMLineIndex,
-              id: event.candidate.sdpMid,
-              candidate: event.candidate.candidate,
+              label: e.candidate.sdpMLineIndex,
+              id: e.candidate.sdpMid,
+              candidate: e.candidate.candidate,
             });
           } else {
             console.log('this is the end candidate');
