@@ -29,6 +29,7 @@ export default {
   },
 
   mounted() {
+    let _this = this;
     var localVideo = document.querySelector('video#localvideo');
     var remoteVideo = document.querySelector('video#remotevideo');
 
@@ -53,7 +54,7 @@ export default {
 
     var pc = null;
     var pcConfig = null;
-    var roomid = 25; // 房间号
+    var roomid = 224; // 房间号
     var socket = null;
 
     var offerdesc = null;
@@ -127,7 +128,7 @@ export default {
 
     function conn() {
       //socket io会捕获到url信息，从而会信令链接服务器
-      socket = io.connect('https://172.51.215.158:443/', {
+      socket = io.connect('https://tslauth.bj-tct.com/', {
         transports: ['websocket'],
       });
 
@@ -181,11 +182,12 @@ export default {
       socket.on('leaved', (roomid, id) => {
         console.log('receive leaved message', roomid, id);
         state = 'leaved';
-        socket.disconnect();
+
         console.log('receive leaved message, state=', state);
 
         btnConn.disabled = false;
         btnLeave.disabled = true;
+        _this.closeDialog();
       });
 
       socket.on('bye', (room, id) => {
@@ -205,6 +207,10 @@ export default {
 
         btnConn.disabled = false;
         btnLeave.disabled = true;
+        // 关闭弹窗
+        // socket.disconnect();
+        console.log(' 关闭连接');
+        _this.closeDialog();
         closeLocalMedia();
       });
 
@@ -476,7 +482,11 @@ export default {
     btnConn.onclick = connSignalServer;
     btnLeave.onclick = leave;
   },
-  methods: {},
+  methods: {
+    closeDialog() {
+      this.$emit('closeModel');
+    },
+  },
 };
 </script>
 
