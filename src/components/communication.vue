@@ -32,7 +32,7 @@ export default {
     let _this = this;
     var localVideo = document.querySelector('video#localvideo');
     var remoteVideo = document.querySelector('video#remotevideo');
-
+    let websocketUrl = 'https://172.51.215.158'; // https://tslauth.bj-tct.com/
     var btnConn = document.querySelector('button#connserver');
     var btnLeave = document.querySelector('button#leave');
 
@@ -127,8 +127,8 @@ export default {
     }
 
     function conn() {
-      //socket io会捕获到url信息，从而会信令链接服务器
-      socket = io.connect('https://tslauth.bj-tct.com/', {
+      //socket io会捕获到url信息，从而会信令链接服务器 'https://tslauth.bj-tct.com/
+      socket = io.connect(websocketUrl, {
         transports: ['websocket'],
       });
 
@@ -288,6 +288,7 @@ export default {
       }
 
       localVideo.srcObject = localStream;
+      // localVideo.src = URL.createObjectURL(localStream);
       //画图使用
 
       //这个函数的位置特别重要，

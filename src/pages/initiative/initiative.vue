@@ -3,50 +3,10 @@
 
   </div> -->
   <div class="initiative">
-    <a-row :gutter="[24, 24]">
-      <a-col :sm="24" :md="12" :xl="4">
-        <chart-card :loading="loading" title="设备数量" total="2" :status="2">
-        </chart-card>
-      </a-col>
-      <a-col :sm="24" :md="12" :xl="4">
-        <chart-card
-          :loading="loading"
-          title="进站客流"
-          total="1234"
-          :status="1"
-        >
-        </chart-card>
-      </a-col>
-      <a-col :sm="24" :md="12" :xl="4">
-        <chart-card :loading="loading" title="换乘客流" total="100" :status="1">
-        </chart-card>
-      </a-col>
-      <a-col :sm="24" :md="12" :xl="4">
-        <chart-card :loading="loading" title="出站客流" total="200" :status="1">
-        </chart-card>
-      </a-col>
-      <a-col :sm="24" :md="12" :xl="4">
-        <chart-card
-          :loading="loading"
-          title="站内状态"
-          total="演练"
-          :status="2"
-        >
-        </chart-card>
-      </a-col>
-      <a-col :sm="24" :md="12" :xl="4">
-        <chart-card
-          :loading="loading"
-          title="清客状态"
-          total="有人"
-          :status="1"
-        >
-        </chart-card>
-      </a-col>
-    </a-row>
+    <top-status></top-status>
     <!-- 设备列表 -->
     <a-form class="form">
-      <a-row :gutter="[24, 24]">
+      <a-row :gutter="[16, 16]">
         <a-col :sm="24" :md="12" :xl="8">
           <div class="card-box">
             <a-form-item label="可用算法">
@@ -125,14 +85,14 @@
 <script>
 import { mapState } from 'vuex';
 import { message } from 'ant-design-vue';
-import ChartCard from '../../components/card/ChartCard';
 import aidModal from '../../components/modal/modal';
+import topStatus from '../../components/topStatus.vue';
 
 import { startSimulat, stopSimulat, statusSimulat } from '@/services/user';
 
 export default {
   name: 'initiative',
-  components: { ChartCard, aidModal },
+  components: { aidModal, topStatus },
   data() {
     return {
       loading: false,

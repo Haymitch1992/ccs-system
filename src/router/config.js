@@ -24,7 +24,7 @@ const options = {
       path: '/',
       name: '首页',
       component: TabsView,
-      redirect: '/login',
+      redirect: '/perception',
       children: [
         {
           path: 'perception',
@@ -32,15 +32,7 @@ const options = {
           meta: {
             icon: 'file-ppt'
           },
-          component: () => import('@/pages/demo')
-        },
-        {
-          path: 'aid',
-          name: '招援管理',
-          meta: {
-            icon: 'file-ppt'
-          },
-          component: () => import('@/pages/demo')
+          component: () => import('@/pages/perception')
         },
         {
           path: 'initiative',

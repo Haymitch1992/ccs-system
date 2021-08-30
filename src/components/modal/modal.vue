@@ -10,7 +10,7 @@
       <div>
         <!-- 招援图像 -->
         <div class="video-box">
-          <communication @closeModel="modalVisible=false"></communication>
+          <communication @closeModel="modalVisible = false"></communication>
           <!-- 按钮行 -->
           <!-- <div class="btn-line">
             <span class="btn-item">

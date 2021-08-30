@@ -2,10 +2,9 @@
   <common-layout>
     <div class="top">
       <div class="header">
-        <img alt="logo" class="logo" src="@/assets/img/logo.png" />
         <span class="title">{{ systemName }}</span>
       </div>
-      <div class="desc">Ant Design 是西湖区最具影响力的 Web 设计规范</div>
+      <!-- <div class="desc">CCS-system应急仿真系统</div> -->
     </div>
     <div class="login">
       <a-form @submit="onSubmit" :form="form">
@@ -107,7 +106,7 @@
             >登录</a-button
           >
         </a-form-item>
-        <div>
+        <!-- <div>
           其他登录方式
           <a-icon class="icon" type="alipay-circle" />
           <a-icon class="icon" type="taobao-circle" />
@@ -115,7 +114,7 @@
           <router-link style="float: right" to="/dashboard/workplace"
             >注册账户</router-link
           >
-        </div>
+        </div> -->
       </a-form>
     </div>
   </common-layout>
@@ -219,8 +218,12 @@ export default {
     }
   }
   .login {
-    width: 368px;
-    margin: 0 auto;
+    width: 400px;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    margin: 30px auto;
     @media screen and (max-width: 576px) {
       width: 95%;
     }
