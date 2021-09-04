@@ -80,7 +80,7 @@ export default {
         {
           level: '2',
           status: '已处置',
-          name: '招援',
+          name: '召援',
           location: '候车区',
           time: '10:12:13',
         },
@@ -101,7 +101,7 @@ export default {
         {
           level: '2',
           status: '已处置',
-          name: '招援',
+          name: '召援',
           location: '候车区',
           time: '10:12:13',
         },

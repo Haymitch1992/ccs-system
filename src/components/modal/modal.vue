@@ -8,7 +8,7 @@
       @cancel="handleOk"
     >
       <div>
-        <!-- 招援图像 -->
+        <!-- 召援图像 -->
         <div class="video-box">
           <communication @closeModel="modalVisible = false"></communication>
           <!-- 按钮行 -->
@@ -33,12 +33,12 @@
             </span>
           </div> -->
         </div>
-        <!-- 招援情况 -->
+        <!-- 召援情况 -->
         <div class="condition" style="display:none;">
           <a-row :gutter="[10, 10]">
             <a-col :sm="24" :md="12" :xl="5">
               <div class="modal-item-title">
-                招援等级<span class="icon-3"></span>
+                召援等级<span class="icon-3"></span>
               </div>
               <div class="modal-item-body center-box">
                 <img src="../../assets/img/icon-4.png" alt="" />
@@ -47,7 +47,7 @@
             </a-col>
             <a-col :sm="24" :md="12" :xl="5">
               <div class="modal-item-title">
-                招援类型<span class="icon-3"></span>
+                召援类型<span class="icon-3"></span>
               </div>
               <div class="modal-item-body">
                 <img class="icon-5" src="../../assets/img/icon-5.png" alt="" />
@@ -59,12 +59,12 @@
                 处置预案<span class="icon-3"></span>
               </div>
               <div class="modal-item-body">
-                请站务同事赶赴招援位置，处理招援请求。
+                请站务同事赶赴召援位置，处理召援请求。
               </div>
             </a-col>
           </a-row>
         </div>
-        <!-- 招援标签 -->
+        <!-- 召援标签 -->
         <div class="tag-line" style="display:none;">
           <a-tag
             :color="index === activeLabelNum ? 'blue' : ''"
@@ -88,17 +88,17 @@ export default {
     return {
       modalVisible: false,
       labelList: [
-        '招援协助_候车区',
-        '招援协助_客服区',
-        '招援协助_候车区',
-        '招援协助_客服区',
-        '招援协助_候车区',
+        '召援协助_候车区',
+        '召援协助_客服区',
+        '召援协助_候车区',
+        '召援协助_客服区',
+        '召援协助_候车区',
       ],
       activeLabelNum: 0,
     };
   },
   mounted() {
-    let socket = io.connect('https://172.51.215.158:443/', {
+    let socket = io.connect('https://10.252.187.14', {
       transports: ['websocket'],
     });
     socket.on('roomid', (roomid) => {

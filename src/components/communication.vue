@@ -32,7 +32,7 @@ export default {
     let _this = this;
     var localVideo = document.querySelector('video#localvideo');
     var remoteVideo = document.querySelector('video#remotevideo');
-    let websocketUrl = 'https://172.51.215.158'; // https://tslauth.bj-tct.com/
+    let websocketUrl = 'https://10.252.187.14'; // https://tslauth.bj-tct.com/
     var btnConn = document.querySelector('button#connserver');
     var btnLeave = document.querySelector('button#leave');
 

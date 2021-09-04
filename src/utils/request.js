@@ -105,19 +105,19 @@ function checkAuthorization(authType = AUTH_TYPE.BEARER) {
 function loadInterceptors(interceptors, options) {
   const {request, response} = interceptors
   // 加载请求拦截器
-  request.forEach(item => {
-    let {onFulfilled, onRejected} = item
-    if (!onFulfilled || typeof onFulfilled !== 'function') {
-      onFulfilled = config => config
-    }
-    if (!onRejected || typeof onRejected !== 'function') {
-      onRejected = error => Promise.reject(error)
-    }
-    axios.interceptors.request.use(
-      config => onFulfilled(config, options),
-      error => onRejected(error, options)
-    )
-  })
+  // request.forEach(item => {
+  //   let {onFulfilled, onRejected} = item
+  //   if (!onFulfilled || typeof onFulfilled !== 'function') {
+  //     onFulfilled = config => config
+  //   }
+  //   if (!onRejected || typeof onRejected !== 'function') {
+  //     onRejected = error => Promise.reject(error)
+  //   }
+  //   axios.interceptors.request.use(
+  //     config => onFulfilled(config, options),
+  //     error => onRejected(error, options)
+  //   )
+  // })
   // 加载响应拦截器
   response.forEach(item => {
     let {onFulfilled, onRejected} = item
