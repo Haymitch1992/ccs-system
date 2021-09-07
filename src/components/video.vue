@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="model-title">
+    <!-- <div class="model-title">
       <span>{{ modelObject.camera_region }}</span>
       <span class="right-text">{{ modelObject.cameraId }}</span>
-    </div>
+    </div> -->
     <div class="video-container">
       <div
         ref="test"
@@ -18,16 +18,24 @@
 <script>
 import flv from 'flv.js';
 import DPlayer from 'dplayer';
+let dp = null;
 export default {
   props: {
     modelObject: Object,
     videoIndex: Number,
   },
+  data() {
+    return {
+      videoTimer: '',
+    };
+  },
   watch: {
     'modelObject.url'() {},
+    //dp.video.currentTime: 返回视频当前播放时间
+    //dp.video.duration: 返回视频总时间
   },
   mounted() {
-    const dp = new DPlayer({
+    dp = new DPlayer({
       // container: document.getElementById('myvideo' + this.videoIndex),
       container: this.$refs.test,
       mutex: false,
@@ -47,6 +55,16 @@ export default {
         },
       },
     });
+    // 每隔时段时间 调整一下速率 追一下进度
+    this.videoTimer = setInterval(() => {
+      if (this.slow) {
+        this.slow = false;
+        dp.speed(1.1);
+      } else {
+        this.slow = true;
+        dp.speed(1);
+      }
+    }, 1000 * 10);
   },
 };
 </script>
@@ -60,7 +78,6 @@ export default {
 }
 .video-container {
   padding: 20px;
-  height: calc(50vh - 90px);
   box-sizing: border-box;
   position: relative;
   background: #fff;
@@ -71,6 +88,6 @@ export default {
   height: 100%;
 }
 .video-box {
-  height: calc(50vh - 120px);
+  height: 350px;
 }
 </style>

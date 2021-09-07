@@ -87,8 +87,8 @@ import { mapState } from 'vuex';
 import { message } from 'ant-design-vue';
 import aidModal from '../../components/modal/modal';
 import topStatus from '../../components/topStatus.vue';
-
-import { startSimulat, stopSimulat, statusSimulat } from '@/services/user';
+import { mapMutations } from 'vuex';
+import { startSimulat, statusSimulat, stopSimulat } from '@/services/user';
 
 export default {
   name: 'initiative',
@@ -103,7 +103,6 @@ export default {
       radius: 0,
       event_type: 1,
       algorithm: 'ca',
-      statuts: false,
       area: 1,
     };
   },
@@ -115,6 +114,7 @@ export default {
     this.getStatusSimulat();
   },
   methods: {
+    ...mapMutations('account', ['setStationStatus']),
     getStatusSimulat() {
       statusSimulat().then((res) => {
         if (res.data.code === 200 && res.data.result.algorithm) {
@@ -125,9 +125,10 @@ export default {
           this.algorithm = obj.algorithm;
           this.event_type = obj.event_type;
           this.area = obj.area;
-          this.statuts = true;
+          //
+          this.setStationStatus(2);
         } else {
-          this.statuts = false;
+          this.setStationStatus(1);
         }
       });
     },
@@ -139,11 +140,11 @@ export default {
     afterStopSimulat(res) {
       console.log(res);
       if (res.data.code === 200) {
+        this.setStationStatus(1);
         message.success('仿真已停止');
       } else {
         message.error(res.data.message);
       }
-      this.statuts = false;
     },
     postStartSimulat() {
       let questID = new Date().getTime();
@@ -160,8 +161,8 @@ export default {
       startSimulat(questID, obj).then(this.afterStartSimulat);
     },
     afterStartSimulat(res) {
-      this.statuts = true;
       if (res.data.code === 200) {
+        this.setStationStatus(2);
         message.success('仿真已开始');
       } else {
         message.error(res.data.message);

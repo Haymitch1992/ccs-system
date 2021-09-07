@@ -14,7 +14,7 @@
     </div>
     <div class="video-btn-line">
       <button id="connserver">连接</button>
-      <button id="leave" disabled>离开</button>
+      <button id="leave" disabled>挂断</button>
     </div>
   </div>
 </template>

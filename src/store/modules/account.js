@@ -4,7 +4,8 @@ export default {
     user: undefined,
     permissions: null,
     roles: null,
-    routesConfig: null
+    routesConfig: null,
+    stationStatus:1,// 1 正常 2 应急
   },
   getters: {
     user: state => {
@@ -71,6 +72,9 @@ export default {
     setRoutesConfig(state, routesConfig) {
       state.routesConfig = routesConfig
       localStorage.setItem(process.env.VUE_APP_ROUTES_KEY, JSON.stringify(routesConfig))
+    },
+    setStationStatus(state, status) {
+      state.stationStatus = status
     }
   }
 }

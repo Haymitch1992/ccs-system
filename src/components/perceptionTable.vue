@@ -4,23 +4,23 @@
       感知报警列表
     </h3>
     <div class="table-box">
-      <a-table :columns="columns" :data-source="tableData" bordered>
+      <a-table :columns="columns" :data-source="alarmList" bordered>
         <a slot="name" slot-scope="text">{{ text }}</a>
         <span slot="customTitle"><a-icon type="smile-o" /> Name</span>
-        <span slot="status" slot-scope="status">
-          <span v-if="status === '未处置'">
+        <span slot="status" slot-scope="status, record">
+          <span v-if="status === '未处置'" @click="handleCurrentChange(record)">
             <span class="status-icon status-1"></span>
             <span class="text-1">
               {{ status }}
             </span>
           </span>
-          <span v-if="status === '处置中'">
+          <span v-if="status === '处置中'" @click="handleCurrentChange(record)">
             <span class="status-icon status-2"></span>
             <span class="text-2">
               {{ status }}
             </span>
           </span>
-          <span v-if="status === '已处置'">
+          <span v-if="status === '已处置'" @click="handleCurrentChange(record)">
             <span class="status-icon status-3"></span>
             <span class="text-3">
               {{ status }}
@@ -54,14 +54,14 @@ export default {
           scopedSlots: { customRender: 'status' },
         },
         {
-          title: '名称',
-          dataIndex: 'name',
-          key: 'name',
+          title: '类型',
+          dataIndex: 'type',
+          key: 'type',
         },
         {
           title: '位置',
-          dataIndex: 'location',
-          key: 'location',
+          dataIndex: 'pos',
+          key: 'pos',
         },
         {
           title: '时间',

@@ -1,4 +1,13 @@
-import {LOGIN, ROUTES,START_SIMULAT,STOP_SIMULAT,STATUS_SIMULAT} from '@/services/api'
+import {
+  LOGIN,
+  ROUTES,
+  START_SIMULAT,
+  GET_PERCEPTION_ALARM,
+  GET_PROCESS_PERCEPTION_ALARM,
+  STOP_SIMULAT, STATUS_SIMULAT,
+  GET_CUSTOMER_FLOW,
+  GET_VIDEO_URL
+} from '@/services/api'
 import {request, METHOD, removeAuthorization} from '@/utils/request'
 
 /**
@@ -12,6 +21,9 @@ export async function login(name, password) {
     name: name,
     password: password
   })
+}
+export async function videoUrl() {
+  return request(GET_VIDEO_URL, METHOD.GET)
 }
 // 开启仿真
 export async function startSimulat(requestId,obj) {
@@ -27,6 +39,12 @@ export async function stopSimulat(requestId,obj) {
     data: obj // 
   })
 }
+// 感知报警
+export async function perceptionAlarm(number) {
+  return request(GET_PERCEPTION_ALARM, METHOD.GET, {
+    number: number
+  })
+}
 // 获取仿真数据
 export async function statusSimulat() {
   return request(STATUS_SIMULAT, METHOD.GET)
@@ -34,6 +52,12 @@ export async function statusSimulat() {
 
 export async function getRoutesConfig() {
   return request(ROUTES, METHOD.GET)
+}
+
+export async function ProcessPerceptionAlarm(uuid) {
+  return request(GET_PROCESS_PERCEPTION_ALARM, METHOD.GET,{
+    detect_uuid:uuid
+  })
 }
 
 /**
@@ -45,10 +69,24 @@ export function logout() {
   localStorage.removeItem(process.env.VUE_APP_ROLES_KEY)
   removeAuthorization()
 }
+
+// 获取实时客流监测
+export async function customerFlow(start,end,interval) {
+  return request(GET_CUSTOMER_FLOW, METHOD.GET,{
+    start: start,
+    end: end,
+    interval:interval
+  })
+}
 export default {
   login,
   logout,
   getRoutesConfig,
   startSimulat,
-  stopSimulat
+  stopSimulat,
+  statusSimulat,
+    ProcessPerceptionAlarm,
+  perceptionAlarm,
+  customerFlow,
+  videoUrl
 }

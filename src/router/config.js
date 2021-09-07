@@ -42,46 +42,46 @@ const options = {
           },
           component: () => import('@/pages/initiative/initiative')
         },
-        {
-          path: 'equipment',
-          name: '集约化装备管理',
-          meta: {
-            icon: 'file-ppt'
-          },
-          component: () => import('@/pages/demo')
-        },
-        {
-          path: 'consensus',
-          name: '舆情分析管理',
-          meta: {
-            icon: 'file-ppt'
-          },
-          component: () => import('@/pages/demo')
-        },
-        {
-          path: 'log',
-          name: '日志查看',
-          meta: {
-            icon: 'file-ppt'
-          },
-          component: () => import('@/pages/demo')
-        },
-        {
-          path: 'staff',
-          name: '员工管理',
-          meta: {
-            icon: 'file-ppt'
-          },
-          component: () => import('@/pages/demo')
-        },
-         {
-          path: 'historyData',
-          name: '历史数据统计',
-          meta: {
-            icon: 'file-ppt'
-          },
-          component: () => import('@/pages/demo')
-        }
+        // {
+        //   path: 'equipment',
+        //   name: '集约化装备管理',
+        //   meta: {
+        //     icon: 'file-ppt'
+        //   },
+        //   component: () => import('@/pages/demo')
+        // },
+        // {
+        //   path: 'consensus',
+        //   name: '舆情分析管理',
+        //   meta: {
+        //     icon: 'file-ppt'
+        //   },
+        //   component: () => import('@/pages/demo')
+        // },
+        // {
+        //   path: 'log',
+        //   name: '日志查看',
+        //   meta: {
+        //     icon: 'file-ppt'
+        //   },
+        //   component: () => import('@/pages/demo')
+        // },
+        // {
+        //   path: 'staff',
+        //   name: '员工管理',
+        //   meta: {
+        //     icon: 'file-ppt'
+        //   },
+        //   component: () => import('@/pages/demo')
+        // },
+        //  {
+        //   path: 'historyData',
+        //   name: '历史数据统计',
+        //   meta: {
+        //     icon: 'file-ppt'
+        //   },
+        //   component: () => import('@/pages/demo')
+        // }
       ]
     }
   ]

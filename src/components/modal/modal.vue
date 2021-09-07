@@ -5,6 +5,8 @@
       title="候车区 ID:0006"
       :width="1000"
       :footer="null"
+      :closable="false"
+      :maskClosable="false"
       @cancel="handleOk"
     >
       <div>
