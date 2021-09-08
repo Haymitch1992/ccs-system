@@ -6,6 +6,7 @@ import {
   GET_PROCESS_PERCEPTION_ALARM,
   STOP_SIMULAT, STATUS_SIMULAT,
   GET_CUSTOMER_FLOW,
+  GET_CLEAR,
   GET_VIDEO_URL
 } from '@/services/api'
 import {request, METHOD, removeAuthorization} from '@/utils/request'
@@ -24,6 +25,9 @@ export async function login(name, password) {
 }
 export async function videoUrl() {
   return request(GET_VIDEO_URL, METHOD.GET)
+}
+export async function getClear() {
+  return request(GET_CLEAR, METHOD.GET)
 }
 // 开启仿真
 export async function startSimulat(requestId,obj) {
@@ -88,5 +92,6 @@ export default {
     ProcessPerceptionAlarm,
   perceptionAlarm,
   customerFlow,
-  videoUrl
+  videoUrl,
+  getClear
 }

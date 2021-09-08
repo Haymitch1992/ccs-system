@@ -11,6 +11,6 @@ module.exports = {
   GET_PERCEPTION_ALARM: '/api/v1/device/platform_ips/perception_alarm_history',// 感知报警
   GET_PROCESS_PERCEPTION_ALARM: '/api/v1/device/platform_ips/process_perception_alarm',// 感知报警
   GET_CUSTOMER_FLOW: '/api/v1/device/platform_ips/customer_flow',// 实时客流监测
-  GET_VIDEO_URL: '/api/v1/device/platform_manage/video_url'
-
+  GET_VIDEO_URL: '/api/v1/device/platform_manage/video_url',
+  GET_CLEAR: '/api/v1/device/platform_ips/get_clear'
 }

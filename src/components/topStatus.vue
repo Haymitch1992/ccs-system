@@ -18,7 +18,7 @@
         <chart-card
           :loading="loading"
           title="换乘客流"
-          :total="passenger_flow.flow_transfer_down"
+          :total="passenger_flow.flow_transfer"
           :status="1"
         >
         </chart-card>
@@ -47,7 +47,7 @@
         <chart-card
           :loading="loading"
           title="清客状态"
-          total="有人"
+          :total="people_number_add"
           :status="1"
         >
         </chart-card>
@@ -57,7 +57,7 @@
 </template>
 <script>
 import ChartCard from '../components/card/ChartCard';
-import { customerFlow } from '../services/user.js';
+import { customerFlow, getClear } from '../services/user.js';
 export default {
   data() {
     return {
@@ -66,8 +66,9 @@ export default {
       passenger_flow: {
         flow_in: 0,
         flow_out: 0,
-        flow_transfer_down: 0,
+        flow_transfer: 0,
       },
+      people_number_add: '有人',
     };
   },
   components: {
@@ -88,12 +89,18 @@ export default {
         this.passenger_flow.flow_in = res.data.result.passenger_flow[0].flow_in;
         this.passenger_flow.flow_out =
           res.data.result.passenger_flow[0].flow_out;
-        this.passenger_flow.flow_transfer_down =
-          res.data.result.passenger_flow[0].flow_transfer_down;
+        this.passenger_flow.flow_transfer =
+          res.data.result.passenger_flow[0].flow_transfer_down +
+          res.data.result.passenger_flow[0].flow_transfer_up;
+      });
+      getClear().then((res) => {
+        let num = res.data.result.clear_info[0].people_number_add;
+        this.people_number_add = num > 0 ? '有人' : '清客';
       });
     },
   },
   mounted() {
+    this.getInfo();
     // 定时任务
     this.timer = setInterval(() => {
       this.getInfo();

@@ -163,7 +163,19 @@ export default {
     getAlarm() {
       perceptionAlarm(15).then((res) => {
         if (res.data.result.abnormal_info) {
-          this.abnormal_info = res.data.result.abnormal_info;
+          let arr = res.data.result.abnormal_info;
+          // this.abnormal_info = res.data.result.abnormal_info;
+          arr.forEach((item) => {
+            // console.log(item.image_url);
+            if (item.image_url.indexOf('https') === -1) {
+              item.image_url = item.image_url.replace(
+                'http://10.252.187.11:80',
+                'https://10.252.187.11:443'
+              );
+              // console.log('被替换的url', item.image_url);
+            }
+          });
+          this.abnormal_info = arr;
           // 加入洪水感知的仿真数据
         } else {
           this.abnormal_info = [];
