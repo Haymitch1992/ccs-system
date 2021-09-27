@@ -24,7 +24,7 @@ const options = {
       path: '/',
       name: '首页',
       component: TabsView,
-      redirect: '/perception',
+      redirect: '/changeStatus',
       children: [
         {
           path: 'perception',
@@ -42,14 +42,14 @@ const options = {
           },
           component: () => import('@/pages/initiative/initiative')
         },
-        // {
-        //   path: 'equipment',
-        //   name: '集约化装备管理',
-        //   meta: {
-        //     icon: 'file-ppt'
-        //   },
-        //   component: () => import('@/pages/demo')
-        // },
+        {
+          path: 'changeStatus',
+          name: '场景切换',
+          meta: {
+            icon: 'file-ppt'
+          },
+          component: () => import('@/pages/changeStatus')
+        },
         // {
         //   path: 'consensus',
         //   name: '舆情分析管理',

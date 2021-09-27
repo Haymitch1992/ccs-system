@@ -7,7 +7,7 @@
     <!-- 设备列表 -->
     <a-form class="form">
       <a-row :gutter="[16, 16]">
-        <a-col :sm="24" :md="12" :xl="8">
+        <a-col :sm="24" :md="24" :xl="8">
           <div class="card-box">
             <a-form-item label="可用算法">
               <a-select placeholder="请选择可用算法" v-model="algorithm">
@@ -17,7 +17,7 @@
             <a-form-item label="危险源选择">
               <a-select placeholder="请选择危险源" v-model="event_type">
                 <a-select-option :value="1">火灾</a-select-option>
-                <a-select-option :value="2">打架</a-select-option>
+                <a-select-option :value="2">水灾</a-select-option>
               </a-select>
             </a-form-item>
             <div class="btn-line">
@@ -27,7 +27,7 @@
             </div>
           </div>
         </a-col>
-        <a-col :sm="24" :md="12" :xl="16">
+        <a-col :sm="24" :md="24" :xl="16">
           <div class="card-box">
             <a-row :gutter="[24, 24]">
               <a-col :sm="24" :md="12" :xl="6">
@@ -65,14 +65,35 @@
             </div>
 
             <div class="btn-line">
-              <a-button type="primary" @click="postStartSimulat">
+              <!-- <a-button type="primary" @click="postStartSimulat">
                 开始
+              </a-button> -->
+              <a-button
+                type="primary"
+                v-if="event_type === 1"
+                @click="postStartSimulat()"
+              >
+                开始火灾场景
               </a-button>
-              <a-button type="primary" @click="postStopSimulat">
+              <a-button
+                type="primary"
+                v-if="event_type === 2"
+                @click="postStartSimulat()"
+              >
+                开始水灾场景
+              </a-button>
+              <a-button type="primary" @click="postStopSimulat()">
                 终止
               </a-button>
             </div>
           </div>
+        </a-col>
+
+        <a-col :span="12">
+          <div class="status-item"></div>
+        </a-col>
+        <a-col :span="12">
+          <div class="status-item"></div>
         </a-col>
       </a-row>
     </a-form>
@@ -89,6 +110,7 @@ import aidModal from '../../components/modal/modal';
 import topStatus from '../../components/topStatus.vue';
 import { mapMutations } from 'vuex';
 import { startSimulat, statusSimulat, stopSimulat } from '@/services/user';
+import { changeScene, sendWelcomeScene } from '@/services/user';
 
 export default {
   name: 'initiative',
@@ -115,6 +137,13 @@ export default {
   },
   methods: {
     ...mapMutations('account', ['setStationStatus']),
+    clickScrene(type) {
+      changeScene(type).then((res) => {
+        if (res.data.message === '发送成功') {
+          this.$message.info('发送成功');
+        }
+      });
+    },
     getStatusSimulat() {
       statusSimulat().then((res) => {
         if (res.data.code === 200 && res.data.result.algorithm) {
@@ -141,6 +170,10 @@ export default {
       console.log(res);
       if (res.data.code === 200) {
         this.setStationStatus(1);
+        setTimeout(() => {
+          this.clickScrene('service_scene');
+        }, 2000);
+        this.clickScrene('service_scene');
         message.success('仿真已停止');
       } else {
         message.error(res.data.message);
@@ -164,10 +197,18 @@ export default {
       if (res.data.code === 200) {
         this.setStationStatus(2);
         message.success('仿真已开始');
+        if (this.event_type === 1) {
+          setTimeout(() => {
+            this.clickScrene('emergency_fire');
+          }, 2000);
+        } else if (this.event_type === 2) {
+          setTimeout(() => {
+            this.clickScrene('emergency_flood');
+          }, 2000);
+        }
       } else {
         message.error(res.data.message);
       }
-
       console.log(res);
     },
     touchmove(event) {

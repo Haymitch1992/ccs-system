@@ -7,7 +7,9 @@ import {
   STOP_SIMULAT, STATUS_SIMULAT,
   GET_CUSTOMER_FLOW,
   GET_CLEAR,
-  GET_VIDEO_URL
+  GET_VIDEO_URL,
+  SEND_SCENE,
+  SEND_WELCOME_SCENE
 } from '@/services/api'
 import {request, METHOD, removeAuthorization} from '@/utils/request'
 
@@ -23,9 +25,22 @@ export async function login(name, password) {
     password: password
   })
 }
+
+export async function changeScene(type) {
+  return request(SEND_SCENE + type, METHOD.GET)
+}
+
+export async function sendWelcomeScene(text) {
+  return request(SEND_WELCOME_SCENE, METHOD.GET,{
+    message: text,
+  })
+}
+
 export async function videoUrl() {
   return request(GET_VIDEO_URL, METHOD.GET)
 }
+
+
 export async function getClear() {
   return request(GET_CLEAR, METHOD.GET)
 }
@@ -93,5 +108,7 @@ export default {
   perceptionAlarm,
   customerFlow,
   videoUrl,
-  getClear
+  getClear,
+  changeScene,
+  sendWelcomeScene // 切换场景
 }

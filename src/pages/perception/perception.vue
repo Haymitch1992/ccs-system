@@ -170,7 +170,7 @@ export default {
             if (item.image_url.indexOf('https') === -1) {
               item.image_url = item.image_url.replace(
                 'http://10.252.187.11:80',
-                'https://10.252.187.11:443'
+                'https://10.252.187.11:444'
               );
               // console.log('被替换的url', item.image_url);
             }
