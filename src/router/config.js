@@ -27,24 +27,8 @@ const options = {
       redirect: '/changeStatus',
       children: [
         {
-          path: 'perception',
-          name: '感知管理',
-          meta: {
-            icon: 'file-ppt'
-          },
-          component: () => import('@/pages/perception')
-        },
-        {
-          path: 'initiative',
-          name: '自主引导管理',
-          meta: {
-            icon: 'file-ppt'
-          },
-          component: () => import('@/pages/initiative/initiative')
-        },
-        {
           path: 'changeStatus',
-          name: '场景切换',
+          name: '一键开关站',
           meta: {
             icon: 'file-ppt'
           },

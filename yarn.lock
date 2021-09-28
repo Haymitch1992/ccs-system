@@ -1133,6 +1133,24 @@
     cssnano-preset-default "^4.0.0"
     postcss "^7.0.0"
 
+"@logicflow/core@^0.6.16":
+  version "0.6.16"
+  resolved "https://registry.nlark.com/@logicflow/core/download/@logicflow/core-0.6.16.tgz#1a64a573b2ee826578bbea12fa330d990dbc1e08"
+  integrity sha1-GmSlc7LugmV4u+oS+jMNmQ28Hgg=
+  dependencies:
+    "@types/mousetrap" "^1.6.4"
+    mousetrap "^1.6.5"
+    preact "^10.4.8"
+
+"@logicflow/extension@^0.6.16":
+  version "0.6.16"
+  resolved "https://registry.nlark.com/@logicflow/extension/download/@logicflow/extension-0.6.16.tgz#971993ca06bbea2c6b67aa3a3624c4ba75861dc3"
+  integrity sha1-lxmTyga76ixrZ6o6NiTEunWGHcM=
+  dependencies:
+    "@logicflow/core" "^0.6.16"
+    ids "^1.0.0"
+    preact "^10.4.8"
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.npm.taobao.org/@mrmlnc/readdir-enhanced/download/@mrmlnc/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -1217,6 +1235,11 @@
   version "3.0.3"
   resolved "https://registry.npm.taobao.org/@types/minimatch/download/@types/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
   integrity sha1-PcoOPzOyAPx9ETnAzZbBJoyt/Z0=
+
+"@types/mousetrap@^1.6.4":
+  version "1.6.8"
+  resolved "https://registry.nlark.com/@types/mousetrap/download/@types/mousetrap-1.6.8.tgz#448929e6dc21126392830465fdb9d4a2cfc16a88"
+  integrity sha1-RIkp5twhEmOSgwRl/bnUos/Baog=
 
 "@types/node@*":
   version "14.0.13"
@@ -5617,6 +5640,11 @@ icss-utils@^4.0.0, icss-utils@^4.1.0, icss-utils@^4.1.1:
   dependencies:
     postcss "^7.0.14"
 
+ids@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npm.taobao.org/ids/download/ids-1.0.0.tgz#df67f2d37b81d7c2effc87e03d17ebff95a58c05"
+  integrity sha1-32fy03uB18Lv/IfgPRfr/5WljAU=
+
 ieee754@^1.1.4:
   version "1.1.13"
   resolved "https://registry.npm.taobao.org/ieee754/download/ieee754-1.1.13.tgz#ec168558e95aa181fd87d37f55c32bbcb6708b84"
@@ -6959,6 +6987,11 @@ moment@^2.21.0:
   resolved "https://registry.npm.taobao.org/moment/download/moment-2.26.0.tgz#5e1f82c6bafca6e83e808b30c8705eed0dcbd39a"
   integrity sha1-Xh+Cxrr8pug+gIswyHBe7Q3L05o=
 
+mousetrap@^1.6.5:
+  version "1.6.5"
+  resolved "https://registry.npm.taobao.org/mousetrap/download/mousetrap-1.6.5.tgz#8a766d8c272b08393d5f56074e0b5ec183485bf9"
+  integrity sha1-inZtjCcrCDk9X1YHTgtewYNIW/k=
+
 move-concurrently@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npm.taobao.org/move-concurrently/download/move-concurrently-1.0.1.tgz#be2c005fda32e0b29af1f05d7c4b33214c701f92"
@@ -8140,6 +8173,11 @@ postcss@^7.0.0, postcss@^7.0.1, postcss@^7.0.14, postcss@^7.0.16, postcss@^7.0.2
     chalk "^2.4.2"
     source-map "^0.6.1"
     supports-color "^6.1.0"
+
+preact@^10.4.8:
+  version "10.5.14"
+  resolved "https://registry.nlark.com/preact/download/preact-10.5.14.tgz#0b14a2eefba3c10a57116b90d1a65f5f00cd2701"
+  integrity sha1-CxSi7vujwQpXEWuQ0aZfXwDNJwE=
 
 prelude-ls@~1.1.2:
   version "1.1.2"
@@ -10278,6 +10316,11 @@ vue-i18n@^8.18.2:
   version "8.18.2"
   resolved "https://registry.npm.taobao.org/vue-i18n/download/vue-i18n-8.18.2.tgz#cd7c12f2e178e6faa23b0e3cfd2f7bac9305f8fc"
   integrity sha1-zXwS8uF45vqiOw48/S97rJMF+Pw=
+
+vue-json-pretty@^1.8.1:
+  version "1.8.1"
+  resolved "https://registry.nlark.com/vue-json-pretty/download/vue-json-pretty-1.8.1.tgz#538bb57fc718544152105aef659b4c88475365ee"
+  integrity sha1-U4u1f8cYVEFSEFrvZZtMiEdTZe4=
 
 vue-loader@^15.7.1:
   version "15.9.3"
