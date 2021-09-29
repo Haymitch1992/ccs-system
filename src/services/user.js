@@ -9,7 +9,9 @@ import {
   GET_CLEAR,
   GET_VIDEO_URL,
   SEND_SCENE,
-  SEND_WELCOME_SCENE
+  SEND_WELCOME_SCENE,
+  POWER_ON,
+  POWER_OFF
 } from '@/services/api'
 import {request, METHOD, removeAuthorization} from '@/utils/request'
 
@@ -28,6 +30,17 @@ export async function login(name, password) {
 
 export async function changeScene(type) {
   return request(SEND_SCENE + type, METHOD.GET)
+}
+
+export async function powerOn(devices) {
+  return request(POWER_ON, METHOD.POST, {
+    devices:devices
+  })
+}
+export async function powerOff(devices) {
+  return request(POWER_OFF, METHOD.POST, {
+    devices:devices
+  })
 }
 
 export async function sendWelcomeScene(text) {
@@ -110,5 +123,7 @@ export default {
   videoUrl,
   getClear,
   changeScene,
+  powerOn,
+  powerOff,
   sendWelcomeScene // 切换场景
 }

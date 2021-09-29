@@ -14,6 +14,8 @@ module.exports = {
   GET_VIDEO_URL: '/api/v1/device/platform_manage/video_url',
   GET_CLEAR: '/api/v1/device/platform_ips/get_clear',
   SEND_SCENE: '/api/v1/device/platform_ws/send/',
-  SEND_WELCOME_SCENE: '/api/v1/device/platform_ws/send/welcome_scene'
+  SEND_WELCOME_SCENE: '/api/v1/device/platform_ws/send/welcome_scene',
+  POWER_ON: '/api/v1/device/platform_power/poweron',
+  POWER_OFF:'/api/v1/device/platform_power/poweroff'
   // 切换场景
 }

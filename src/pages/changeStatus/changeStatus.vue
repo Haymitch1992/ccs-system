@@ -3,7 +3,7 @@
     <div class="top-line">
       <a-row :gutter="[16, 16]">
         <a-col :xl="12">
-          <div class="open-btn" @click="changeStatus()">
+          <div class="open-btn" @click="changeStatus('success')">
             一键开站
           </div>
           <div class="setting-box">
@@ -17,7 +17,7 @@
           </div>
         </a-col>
         <a-col :xl="12">
-          <div class="close-btn" @click="$_getData">
+          <div class="close-btn" @click="changeStatus('empty')">
             一键关站
           </div>
           <div class="setting-box">
@@ -33,13 +33,13 @@
       </a-row>
     </div>
     <div class="progress-line">
-      <span>开站自检流程</span>
+      <span>自检流程</span>
       <span class="progress-status "></span>
-      <span>开站启运准备流程</span>
+      <span>启/停运准备流程</span>
       <span class="progress-status "></span>
-      <span>开站启运执行流程</span>
+      <span>启/停运执行流程</span>
       <span class="progress-status "></span>
-      <span>开站完成</span>
+      <span>开/关站完成</span>
       <span class="progress-status "></span>
       <span class="float-text">
         <span class="text-margin-right-10">当前时间 00:00:00</span>
@@ -102,6 +102,7 @@ import logAlter from '../../components/taskAlter/logAlter.vue';
 import dataAlter from '../../components/taskAlter/dataAlter.vue';
 import taskData from '../../components/taskAlter/taskData.vue';
 import { nodeList } from './config';
+import { powerOff, powerOn } from '../../services/user';
 export default {
   name: 'Demo',
   i18n: require('./i18n'),
@@ -115,16 +116,25 @@ export default {
       showLog: false,
       dataVisible: false,
       progressVal: 0,
+      deviceList: [
+        'pc_26',
+        'pc_180',
+        'wzj_34',
+        'wzj_75',
+        'wzj_79',
+        'wzj_80',
+        'light_all',
+      ],
       startTime: '2021-09-28 05:00:00', // 只取时分秒
       endTime: '2021-09-28 21:00:00',
       lf: {},
       taskData: {
         nodes: [
           {
-            id: 'a0',
+            id: 0,
             type: 'rect',
             baseType: 'node',
-            x: 340,
+            x: 140,
             y: 40,
             text: '开始',
             properties: {
@@ -132,9 +142,9 @@ export default {
             },
           },
           {
-            id: 'a1',
+            id: 1,
             type: 'task',
-            x: 140,
+            x: 340,
             y: 40,
             text: 'PA自检程序',
             properties: {
@@ -144,38 +154,19 @@ export default {
           {
             id: 2,
             type: 'task',
-            x: 140,
-            y: 140,
+            x: 340,
+            y: 100,
             text: 'PIS自检程序',
             properties: {
               customStatus: 'empty',
             },
           },
-          {
-            id: 3,
-            type: 'task',
-            x: 140,
-            y: 240,
-            text: 'AFC自检程序',
-            properties: {
-              customStatus: 'empty',
-            },
-          },
-          {
-            id: 4,
-            type: 'task',
-            x: 140,
-            y: 340,
-            text: 'BAS自检程序',
-            properties: {
-              customStatus: 'empty',
-            },
-          },
+
           {
             id: 5,
             type: 'task',
-            x: 140,
-            y: 440,
+            x: 340,
+            y: 280,
             text: 'PSD自检程序',
             properties: {
               customStatus: 'empty',
@@ -184,9 +175,29 @@ export default {
           {
             id: 6,
             type: 'task',
-            x: 140,
-            y: 540,
+            x: 340,
+            y: 340,
             text: 'IES自检程序',
+            properties: {
+              customStatus: 'empty',
+            },
+          },
+          {
+            id: 3,
+            type: 'task',
+            x: 340,
+            y: 160,
+            text: 'AFC自检程序',
+            properties: {
+              customStatus: 'empty',
+            },
+          },
+          {
+            id: 4,
+            type: 'task',
+            x: 340,
+            y: 220,
+            text: 'BAS自检程序',
             properties: {
               customStatus: 'empty',
             },
@@ -195,7 +206,7 @@ export default {
             id: 7,
             type: 'task',
             x: 340,
-            y: 540,
+            y: 400,
             text: 'AGS自检程序',
             properties: {
               customStatus: 'empty',
@@ -205,7 +216,7 @@ export default {
             id: 8,
             type: 'task',
             x: 340,
-            y: 440,
+            y: 460,
             text: 'IPS自检程序',
             properties: {
               customStatus: 'empty',
@@ -215,7 +226,7 @@ export default {
             id: 9,
             type: 'task',
             x: 340,
-            y: 340,
+            y: 520,
             text: '直梯扶梯系统自检程序',
             properties: {
               customStatus: 'empty',
@@ -225,7 +236,7 @@ export default {
             id: 10,
             type: 'task',
             x: 340,
-            y: 240,
+            y: 580,
             text: '卷帘门系统自检程序',
             properties: {
               customStatus: 'empty',
@@ -234,8 +245,8 @@ export default {
           {
             id: 11,
             type: 'task',
-            x: 340,
-            y: 140,
+            x: 600,
+            y: 40,
             text: 'PA广播系统自检程序',
             properties: {
               customStatus: 'empty',
@@ -244,8 +255,8 @@ export default {
           {
             id: 12,
             type: 'task',
-            x: 540,
-            y: 140,
+            x: 600,
+            y: 100,
             text: 'PIS(乘客资讯系统)',
             properties: {
               customStatus: 'empty',
@@ -254,9 +265,9 @@ export default {
           {
             id: 13,
             type: 'task',
-            x: 540,
-            y: 240,
-            text: 'BAS(环境与设备监控系统)',
+            x: 600,
+            y: 160,
+            text: 'IPS寻站',
             properties: {
               customStatus: 'empty',
             },
@@ -264,8 +275,8 @@ export default {
           {
             id: 14,
             type: 'task',
-            x: 540,
-            y: 340,
+            x: 840,
+            y: 100,
             text: 'PA广播系统包房启运准备',
             properties: {
               customStatus: 'empty',
@@ -274,8 +285,8 @@ export default {
           {
             id: 15,
             type: 'task',
-            x: 740,
-            y: 340,
+            x: 1040,
+            y: 100,
             text: '直扶梯',
             properties: {
               customStatus: 'empty',
@@ -284,8 +295,8 @@ export default {
           {
             id: 16,
             type: 'task',
-            x: 740,
-            y: 240,
+            x: 1040,
+            y: 160,
             text: 'AFC(自动售检票系统)',
             properties: {
               customStatus: 'empty',
@@ -294,8 +305,8 @@ export default {
           {
             id: 17,
             type: 'task',
-            x: 740,
-            y: 140,
+            x: 1040,
+            y: 220,
             text: 'IPS(综合感知系统)',
             properties: {
               customStatus: 'empty',
@@ -304,8 +315,8 @@ export default {
           {
             id: 18,
             type: 'task',
-            x: 940,
-            y: 140,
+            x: 1300,
+            y: 100,
             text: '开启卷帘门',
             properties: {
               customStatus: 'empty',
@@ -313,9 +324,29 @@ export default {
           },
           {
             id: 19,
+            type: 'task',
+            x: 1300,
+            y: 160,
+            text: '生成报告',
+            properties: {
+              customStatus: 'empty',
+            },
+          },
+          {
+            id: 20,
+            type: 'task',
+            x: 1300,
+            y: 220,
+            text: 'PA通知',
+            properties: {
+              customStatus: 'empty',
+            },
+          },
+          {
+            id: 21,
             type: 'rect',
-            x: 1140,
-            y: 140,
+            x: 1300,
+            y: 280,
             text: '完成',
             properties: {
               customStatus: 'empty',
@@ -326,13 +357,18 @@ export default {
         edges: [
           {
             type: 'polyline',
-            sourceNodeId: 'a0',
-            targetNodeId: 'a1',
+            sourceNodeId: 0,
+            targetNodeId: 1,
           },
           {
             type: 'polyline',
-            sourceNodeId: 'a1',
+            sourceNodeId: 1,
             targetNodeId: 2,
+          },
+          {
+            type: 'polyline',
+            sourceNodeId: 1,
+            targetNodeId: 11,
           },
           {
             type: 'polyline',
@@ -341,8 +377,18 @@ export default {
           },
           {
             type: 'polyline',
+            sourceNodeId: 2,
+            targetNodeId: 11,
+          },
+          {
+            type: 'polyline',
             sourceNodeId: 3,
             targetNodeId: 4,
+          },
+          {
+            type: 'polyline',
+            sourceNodeId: 3,
+            targetNodeId: 11,
           },
           {
             type: 'polyline',
@@ -351,8 +397,18 @@ export default {
           },
           {
             type: 'polyline',
+            sourceNodeId: 4,
+            targetNodeId: 11,
+          },
+          {
+            type: 'polyline',
             sourceNodeId: 5,
             targetNodeId: 6,
+          },
+          {
+            type: 'polyline',
+            sourceNodeId: 5,
+            targetNodeId: 11,
           },
           {
             type: 'polyline',
@@ -361,8 +417,18 @@ export default {
           },
           {
             type: 'polyline',
+            sourceNodeId: 6,
+            targetNodeId: 11,
+          },
+          {
+            type: 'polyline',
             sourceNodeId: 7,
             targetNodeId: 8,
+          },
+          {
+            type: 'polyline',
+            sourceNodeId: 7,
+            targetNodeId: 11,
           },
           {
             type: 'polyline',
@@ -371,9 +437,20 @@ export default {
           },
           {
             type: 'polyline',
+            sourceNodeId: 8,
+            targetNodeId: 11,
+          },
+          {
+            type: 'polyline',
             sourceNodeId: 9,
             targetNodeId: 10,
           },
+          {
+            type: 'polyline',
+            sourceNodeId: 9,
+            targetNodeId: 11,
+          },
+
           {
             type: 'polyline',
             sourceNodeId: 10,
@@ -388,6 +465,11 @@ export default {
             type: 'polyline',
             sourceNodeId: 12,
             targetNodeId: 13,
+          },
+          {
+            type: 'polyline',
+            sourceNodeId: 12,
+            targetNodeId: 14,
           },
           {
             type: 'polyline',
@@ -416,8 +498,28 @@ export default {
           },
           {
             type: 'polyline',
+            sourceNodeId: 15,
+            targetNodeId: 18,
+          },
+          {
+            type: 'polyline',
+            sourceNodeId: 16,
+            targetNodeId: 18,
+          },
+          {
+            type: 'polyline',
             sourceNodeId: 18,
             targetNodeId: 19,
+          },
+          {
+            type: 'polyline',
+            sourceNodeId: 19,
+            targetNodeId: 20,
+          },
+          {
+            type: 'polyline',
+            sourceNodeId: 20,
+            targetNodeId: 21,
           },
         ],
       },
@@ -439,17 +541,24 @@ export default {
     //   const data = this.lf.getGraphData();
     //   console.log(data);
     // },
+    postPowerOn() {
+      powerOn(this.deviceList).then();
+    },
+    postPowerOff() {
+      powerOff(this.deviceList).then();
+    },
     $_catData() {
       console.log(123);
       this.$data.graphData = this.$data.lf.getGraphData();
       console.log(this.$data.graphData);
       this.$data.dataVisible = true;
     },
-    changeStatus() {
+    changeStatus(str) {
       let startNode = 0;
       let runNodes = this.taskData.nodes.length;
+
       let timer = setInterval(() => {
-        this.taskData.nodes[startNode].properties.customStatus = 'success';
+        this.taskData.nodes[startNode].properties.customStatus = str;
         this.$message.success(
           this.taskData.nodes[startNode].text + ' 运行成功！'
         );
@@ -460,7 +569,13 @@ export default {
           this.showLog = true;
           clearInterval(timer);
         }
-      }, 1000);
+
+        if (str === 'success' && startNode === 15) {
+          this.postPowerOn();
+        } else if (str === 'empty' && startNode === 15) {
+          this.postPowerOff();
+        }
+      }, 2000);
     },
     init() {
       LogicFlow.use(Menu);
@@ -560,6 +675,7 @@ export default {
   background: #f0f0f0;
   margin-top: 16px;
   padding: 14px 20px;
+  overflow: hidden;
   .progress-status {
     display: inline-block;
     width: 18px;

@@ -37,11 +37,17 @@ const assetsCDN = {
 module.exports = {
   devServer: {
     proxy: {
+      '/api/v1/device/platform_power': {//代理api
+        target: 'http://172.51.215.159:30080',
+        changeOrigin: true,//是否跨域
+        ws: true, // proxy websockets
+        },
       '/api/v1/device/platform_ws': {//代理api
         target: 'http://172.51.215.158:80',
         changeOrigin: true,//是否跨域
         ws: true, // proxy websockets
-        },
+      },
+    
       '/api/v1/css_screen/platform_ags': { //此处要与 /services/api.js 中的 API_PROXY_PREFIX 值保持一致
         target: process.env.VUE_APP_API_BASE_URL,
         // target: 'http://10.252.187.11:80',
@@ -61,7 +67,7 @@ module.exports = {
         changeOrigin: true,//是否跨域
         ws: true, // proxy websockets
       },
-    
+      
     }
   },
   pluginOptions: {
