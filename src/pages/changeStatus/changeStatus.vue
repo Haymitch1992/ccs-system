@@ -3,7 +3,7 @@
     <div class="top-line">
       <a-row :gutter="[16, 16]">
         <a-col :xl="12">
-          <div class="open-btn" @click="changeStatus('success')">
+          <div class="open-btn" @click="opneStationDialog()">
             一键开站
           </div>
           <div class="setting-box">
@@ -17,7 +17,7 @@
           </div>
         </a-col>
         <a-col :xl="12">
-          <div class="close-btn" @click="changeStatus('empty')">
+          <div class="close-btn" @click="closeStationDialog()">
             一键关站
           </div>
           <div class="setting-box">
@@ -35,11 +35,11 @@
     <div class="progress-line">
       <span>自检流程</span>
       <span class="progress-status "></span>
-      <span>启/停运准备流程</span>
+      <span>{{ stationStatus | stationZn2 }}运准备流程</span>
       <span class="progress-status "></span>
-      <span>启/停运执行流程</span>
+      <span>{{ stationStatus | stationZn2 }}运执行流程</span>
       <span class="progress-status "></span>
-      <span>开/关站完成</span>
+      <span>{{ stationStatus | stationZn }}站完成</span>
       <span class="progress-status "></span>
       <span class="float-text">
         <span class="text-margin-right-10">当前时间 00:00:00</span>
@@ -50,6 +50,21 @@
       <span class="progress-text">开站完成百分比</span>
       <span class="progress-item"></span>
       <a-progress :percent="progressVal" :strokeWidth="20" />
+    </div>
+    <div class="progress-line">
+      <a-button size="small">PA 广播系统</a-button>
+      <a-button size="small">PIS 乘客资讯系统</a-button>
+      <a-button size="small">AFC 自动售检票系统</a-button>
+      <a-button size="small">BAS 环境与设备监控系统</a-button>
+      <a-button size="small">PSD 屏蔽门系统</a-button>
+      <a-button size="small">IES 集约化装备系统</a-button>
+      <a-button size="small">AGS 自主引导系统</a-button>
+      <a-button size="small">IPS 综合感知系统</a-button>
+      <span class="float-right-btn">
+        <a-button size="small">故障</a-button>
+        <a-button size="small">开启</a-button>
+        <a-button size="small">未开启</a-button>
+      </span>
     </div>
     <div class="pos-box">
       <!-- 节点面板 -->
@@ -86,6 +101,11 @@
         <!-- 当前顺序组 -->
         <!--  -->
       </a-drawer>
+      <pass-word
+        v-if="passWordVisible"
+        @closeModal="passWordVisible = false"
+        @startTask="startTask"
+      ></pass-word>
     </div>
   </div>
 </template>
@@ -99,22 +119,26 @@ import NodePanel from './LFComponents/NodePanel';
 import '@logicflow/core/dist/style/index.css';
 import { registerTask } from '../../components/registerNode';
 import logAlter from '../../components/taskAlter/logAlter.vue';
+import passWord from '../../components/taskAlter/password.vue';
 import dataAlter from '../../components/taskAlter/dataAlter.vue';
 import taskData from '../../components/taskAlter/taskData.vue';
+
 import { nodeList } from './config';
-import { powerOff, powerOn } from '../../services/user';
+import { powerOff, powerOn } from '../../services/user.js';
 export default {
   name: 'Demo',
   i18n: require('./i18n'),
-  components: { Control, logAlter, NodePanel, dataAlter, taskData },
+  components: { Control, logAlter, NodePanel, dataAlter, taskData, passWord },
   data() {
     return {
+      stationStatus: 0,
       // 节点
       visible: false,
       clickNode: null,
       graphData: null,
       showLog: false,
       dataVisible: false,
+      passWordVisible: false,
       progressVal: 0,
       deviceList: [
         'pc_26',
@@ -317,7 +341,7 @@ export default {
             type: 'task',
             x: 1300,
             y: 100,
-            text: '开启卷帘门',
+            text: '卷帘门',
             properties: {
               customStatus: 'empty',
             },
@@ -526,8 +550,44 @@ export default {
       nodeList,
     };
   },
+  filters: {
+    stationZn(val) {
+      switch (val) {
+        case 0:
+          return '开';
+        case 1:
+          return '关';
+      }
+    },
+    stationZn2(val) {
+      switch (val) {
+        case 0:
+          return '启';
+        case 1:
+          return '停';
+      }
+    },
+  },
   computed: {},
   methods: {
+    // 开站准备
+    opneStationDialog() {
+      this.stationStatus = 0;
+      this.passWordVisible = true;
+    },
+    closeStationDialog() {
+      this.stationStatus = 1;
+      this.passWordVisible = true;
+    },
+    startTask() {
+      this.passWordVisible = false;
+      if (this.stationStatus === 1) {
+        this.changeStatus('empty');
+      } else {
+        this.changeStatus('success');
+      }
+    },
+    // 关站准备
     afterVisibleChange(val) {
       console.log('visible', val);
     },
@@ -668,6 +728,9 @@ export default {
 </script>
 
 <style scoped lang="less">
+.float-right-btn {
+  float: right;
+}
 .pos-box {
   position: relative;
 }
@@ -691,6 +754,9 @@ export default {
   }
   .text-margin-right-10 {
     margin-right: 30px;
+  }
+  button {
+    margin: 0 4px 0 0;
   }
 }
 .demo-control {
@@ -777,7 +843,7 @@ export default {
 }
 </style>
 <style>
-.lf-menu {
+/* .lf-menu {
   position: absolute;
   display: none;
   background: #fff;
@@ -805,5 +871,5 @@ export default {
 }
 .lf-menu-item:hover {
   background: #f3f3f3;
-}
+} */
 </style>
