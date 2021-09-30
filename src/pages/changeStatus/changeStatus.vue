@@ -47,7 +47,9 @@
       </span>
     </div>
     <div class="progress-bar">
-      <span class="progress-text">开站完成百分比</span>
+      <span class="progress-text"
+        >{{ stationStatus | stationZn }}站完成百分比</span
+      >
       <span class="progress-item"></span>
       <a-progress :percent="progressVal" :strokeWidth="20" />
     </div>
@@ -61,9 +63,9 @@
       <a-button size="small">AGS 自主引导系统</a-button>
       <a-button size="small">IPS 综合感知系统</a-button>
       <span class="float-right-btn">
-        <a-button size="small">故障</a-button>
-        <a-button size="small">开启</a-button>
-        <a-button size="small">未开启</a-button>
+        <a-button size="small" class="task-btn-1">故障</a-button>
+        <a-button size="small" class="task-btn-2">开启</a-button>
+        <a-button size="small" class="task-btn-3">未开启</a-button>
       </span>
     </div>
     <div class="pos-box">
@@ -337,6 +339,50 @@ export default {
             },
           },
           {
+            id: 22,
+            type: 'task',
+            x: 1040,
+            y: 280,
+            text: '包柱屏',
+            properties: {
+              customStatus: 'empty',
+              deviceList: ['pc_26'],
+            },
+          },
+          {
+            id: 23,
+            type: 'task',
+            x: 1040,
+            y: 340,
+            text: '引导屏',
+            properties: {
+              customStatus: 'empty',
+              deviceList: ['wzj_34', 'wzj_75', 'wzj_79', 'wzj_80'],
+            },
+          },
+          {
+            id: 24,
+            type: 'task',
+            x: 1040,
+            y: 400,
+            text: '手势识别屏',
+            properties: {
+              customStatus: 'empty',
+              deviceList: ['pc_180'],
+            },
+          },
+          {
+            id: 25,
+            type: 'task',
+            x: 1040,
+            y: 460,
+            text: '照明',
+            properties: {
+              customStatus: 'empty',
+              deviceList: ['light_all'],
+            },
+          },
+          {
             id: 18,
             type: 'task',
             x: 1300,
@@ -530,6 +576,33 @@ export default {
             sourceNodeId: 16,
             targetNodeId: 18,
           },
+
+          {
+            type: 'polyline',
+            sourceNodeId: 25,
+            targetNodeId: 18,
+          },
+          {
+            type: 'polyline',
+            sourceNodeId: 24,
+            targetNodeId: 18,
+          },
+          {
+            type: 'polyline',
+            sourceNodeId: 23,
+            targetNodeId: 18,
+          },
+          {
+            type: 'polyline',
+            sourceNodeId: 22,
+            targetNodeId: 18,
+          },
+          {
+            type: 'polyline',
+            sourceNodeId: 21,
+            targetNodeId: 18,
+          },
+
           {
             type: 'polyline',
             sourceNodeId: 18,
@@ -544,6 +617,26 @@ export default {
             type: 'polyline',
             sourceNodeId: 20,
             targetNodeId: 21,
+          },
+          {
+            type: 'polyline',
+            sourceNodeId: 17,
+            targetNodeId: 22,
+          },
+          {
+            type: 'polyline',
+            sourceNodeId: 22,
+            targetNodeId: 23,
+          },
+          {
+            type: 'polyline',
+            sourceNodeId: 23,
+            targetNodeId: 24,
+          },
+          {
+            type: 'polyline',
+            sourceNodeId: 24,
+            targetNodeId: 25,
           },
         ],
       },
@@ -601,11 +694,11 @@ export default {
     //   const data = this.lf.getGraphData();
     //   console.log(data);
     // },
-    postPowerOn() {
-      powerOn(this.deviceList).then();
+    postPowerOn(deviceList) {
+      powerOn(deviceList).then();
     },
-    postPowerOff() {
-      powerOff(this.deviceList).then();
+    postPowerOff(deviceList) {
+      powerOff(deviceList).then();
     },
     $_catData() {
       console.log(123);
@@ -613,29 +706,44 @@ export default {
       console.log(this.$data.graphData);
       this.$data.dataVisible = true;
     },
+    // startTimeOut(num) {
+    //   setTimeout(() => {
+    //     // 执行
+    //     startNode
+    //     if(this.startNode<){
+    //       this.startTimeOut(200)
+    //     }
+    //   }, num);
+    // },
     changeStatus(str) {
       let startNode = 0;
       let runNodes = this.taskData.nodes.length;
 
       let timer = setInterval(() => {
-        this.taskData.nodes[startNode].properties.customStatus = str;
-        this.$message.success(
-          this.taskData.nodes[startNode].text + ' 运行成功！'
-        );
+        this.taskData.nodes[startNode].properties.customStatus = 'success';
+
         this.lf.render(this.taskData);
-        this.progressVal += 5;
+        this.progressVal += 4;
+        if (this.taskData.nodes[startNode].properties.deviceList) {
+          this.$message.success(
+            this.taskData.nodes[startNode].text + ' 运行成功！'
+          );
+          if (str === 'success') {
+            this.postPowerOn(
+              this.taskData.nodes[startNode].properties.deviceList
+            );
+          } else if (str === 'empty') {
+            this.postPowerOff(
+              this.taskData.nodes[startNode].properties.deviceList
+            );
+          }
+        }
         startNode++;
         if (startNode >= runNodes) {
           this.showLog = true;
           clearInterval(timer);
         }
-
-        if (str === 'success' && startNode === 15) {
-          this.postPowerOn();
-        } else if (str === 'empty' && startNode === 15) {
-          this.postPowerOff();
-        }
-      }, 2000);
+      }, 400);
     },
     init() {
       LogicFlow.use(Menu);
@@ -840,6 +948,18 @@ export default {
 }
 .inp-line {
   margin-bottom: 20px;
+}
+.task-btn-1 {
+  background: #f42f00;
+  color: #fff;
+}
+.task-btn-2 {
+  background: #00b554;
+  color: #fff;
+}
+.task-btn-3 {
+  background: #898989;
+  color: #fff;
 }
 </style>
 <style>
