@@ -160,8 +160,8 @@ export default {
             id: 0,
             type: 'rect',
             baseType: 'node',
-            x: 140,
-            y: 40,
+            x: 120,
+            y: 340,
             text: '开始',
             properties: {
               customStatus: 'empty',
@@ -283,7 +283,7 @@ export default {
             type: 'task',
             x: 600,
             y: 100,
-            text: 'PIS(乘客资讯系统)',
+            text: 'PIS提示',
             properties: {
               customStatus: 'empty',
             },
@@ -293,7 +293,7 @@ export default {
             type: 'task',
             x: 600,
             y: 160,
-            text: 'IPS寻站',
+            text: 'IPS开启巡站',
             properties: {
               customStatus: 'empty',
             },
@@ -303,7 +303,7 @@ export default {
             type: 'task',
             x: 840,
             y: 100,
-            text: 'PA广播系统包房启运准备',
+            text: 'PA广播系统播放',
             properties: {
               customStatus: 'empty',
             },
@@ -323,7 +323,7 @@ export default {
             type: 'task',
             x: 1040,
             y: 160,
-            text: 'AFC(自动售检票系统)',
+            text: 'AFC',
             properties: {
               customStatus: 'empty',
             },
@@ -333,7 +333,7 @@ export default {
             type: 'task',
             x: 1040,
             y: 220,
-            text: 'IPS(综合感知系统)',
+            text: 'IPS',
             properties: {
               customStatus: 'empty',
             },
@@ -432,7 +432,7 @@ export default {
           },
           {
             type: 'polyline',
-            sourceNodeId: 1,
+            sourceNodeId: 0,
             targetNodeId: 2,
           },
           {
@@ -442,7 +442,7 @@ export default {
           },
           {
             type: 'polyline',
-            sourceNodeId: 2,
+            sourceNodeId: 0,
             targetNodeId: 3,
           },
           {
@@ -452,7 +452,7 @@ export default {
           },
           {
             type: 'polyline',
-            sourceNodeId: 3,
+            sourceNodeId: 0,
             targetNodeId: 4,
           },
           {
@@ -462,7 +462,7 @@ export default {
           },
           {
             type: 'polyline',
-            sourceNodeId: 4,
+            sourceNodeId: 0,
             targetNodeId: 5,
           },
           {
@@ -472,7 +472,7 @@ export default {
           },
           {
             type: 'polyline',
-            sourceNodeId: 5,
+            sourceNodeId: 0,
             targetNodeId: 6,
           },
           {
@@ -482,7 +482,7 @@ export default {
           },
           {
             type: 'polyline',
-            sourceNodeId: 6,
+            sourceNodeId: 0,
             targetNodeId: 7,
           },
           {
@@ -492,29 +492,31 @@ export default {
           },
           {
             type: 'polyline',
-            sourceNodeId: 7,
+            sourceNodeId: 0,
             targetNodeId: 8,
           },
           {
             type: 'polyline',
-            sourceNodeId: 7,
-            targetNodeId: 11,
-          },
-          {
-            type: 'polyline',
-            sourceNodeId: 8,
+            sourceNodeId: 0,
             targetNodeId: 9,
           },
           {
             type: 'polyline',
-            sourceNodeId: 8,
-            targetNodeId: 11,
+            sourceNodeId: 0,
+            targetNodeId: 10,
           },
           {
             type: 'polyline',
-            sourceNodeId: 9,
-            targetNodeId: 10,
+            sourceNodeId: 7,
+            targetNodeId: 11,
           },
+
+          {
+            type: 'polyline',
+            sourceNodeId: 8,
+            targetNodeId: 11,
+          },
+
           {
             type: 'polyline',
             sourceNodeId: 9,
@@ -561,47 +563,47 @@ export default {
             sourceNodeId: 16,
             targetNodeId: 17,
           },
-          {
-            type: 'polyline',
-            sourceNodeId: 17,
-            targetNodeId: 18,
-          },
-          {
-            type: 'polyline',
-            sourceNodeId: 15,
-            targetNodeId: 18,
-          },
-          {
-            type: 'polyline',
-            sourceNodeId: 16,
-            targetNodeId: 18,
-          },
+          // {
+          //   type: 'polyline',
+          //   sourceNodeId: 17,
+          //   targetNodeId: 18,
+          // },
+          // {
+          //   type: 'polyline',
+          //   sourceNodeId: 15,
+          //   targetNodeId: 18,
+          // },
+          // {
+          //   type: 'polyline',
+          //   sourceNodeId: 16,
+          //   targetNodeId: 18,
+          // },
 
           {
             type: 'polyline',
             sourceNodeId: 25,
             targetNodeId: 18,
           },
-          {
-            type: 'polyline',
-            sourceNodeId: 24,
-            targetNodeId: 18,
-          },
-          {
-            type: 'polyline',
-            sourceNodeId: 23,
-            targetNodeId: 18,
-          },
-          {
-            type: 'polyline',
-            sourceNodeId: 22,
-            targetNodeId: 18,
-          },
-          {
-            type: 'polyline',
-            sourceNodeId: 21,
-            targetNodeId: 18,
-          },
+          // {
+          //   type: 'polyline',
+          //   sourceNodeId: 24,
+          //   targetNodeId: 18,
+          // },
+          // {
+          //   type: 'polyline',
+          //   sourceNodeId: 23,
+          //   targetNodeId: 18,
+          // },
+          // {
+          //   type: 'polyline',
+          //   sourceNodeId: 22,
+          //   targetNodeId: 18,
+          // },
+          // {
+          //   type: 'polyline',
+          //   sourceNodeId: 21,
+          //   targetNodeId: 18,
+          // },
 
           {
             type: 'polyline',
@@ -641,6 +643,8 @@ export default {
         ],
       },
       nodeList,
+      startNode: 0,
+      timer: '',
     };
   },
   filters: {
@@ -716,34 +720,38 @@ export default {
     //   }, num);
     // },
     changeStatus(str) {
-      let startNode = 0;
-      let runNodes = this.taskData.nodes.length;
-
-      let timer = setInterval(() => {
-        this.taskData.nodes[startNode].properties.customStatus = 'success';
-
+      let runNodes = this.taskData.nodes.length - 1;
+      let runTime = this.taskData.nodes[this.startNode].properties.deviceList
+        ? 2000
+        : 40;
+      //  改为一次性定是任务
+      this.timer = setTimeout(() => {
+        this.taskData.nodes[this.startNode].properties.customStatus = 'success';
         this.lf.render(this.taskData);
         this.progressVal += 4;
-        if (this.taskData.nodes[startNode].properties.deviceList) {
+        if (this.taskData.nodes[this.startNode].properties.deviceList) {
           this.$message.success(
-            this.taskData.nodes[startNode].text + ' 运行成功！'
+            this.taskData.nodes[this.startNode].text + ' 运行成功！'
           );
           if (str === 'success') {
             this.postPowerOn(
-              this.taskData.nodes[startNode].properties.deviceList
+              this.taskData.nodes[this.startNode].properties.deviceList
             );
           } else if (str === 'empty') {
             this.postPowerOff(
-              this.taskData.nodes[startNode].properties.deviceList
+              this.taskData.nodes[this.startNode].properties.deviceList
             );
           }
         }
-        startNode++;
-        if (startNode >= runNodes) {
+        if (this.startNode < runNodes) {
+          console.log('当前是第几项', this.startNode);
+          this.startNode++;
+          this.changeStatus();
+        } else {
+          this.startNode = 0;
           this.showLog = true;
-          clearInterval(timer);
         }
-      }, 400);
+      }, runTime);
     },
     init() {
       LogicFlow.use(Menu);
@@ -941,6 +949,35 @@ export default {
 .new-page {
   padding: 20px;
   background: #fff;
+  /deep/ .lf-menu {
+    position: absolute;
+    display: none;
+    background: #fff;
+    padding: 10px 0;
+    margin: 0 0 0 10px;
+    border-radius: 3px;
+    border: 1px solid #efefee;
+    width: 140px;
+  }
+  /deep/ .lf-menu > li {
+    cursor: pointer;
+    list-style: none;
+    padding: 3px 12px;
+    font-size: 12px;
+    line-height: 18px;
+    cursor: pointer;
+    transition: all 120ms ease-in-out;
+    position: relative;
+  }
+  /deep/ .lf-menu-item__disabled {
+    cursor: default;
+    pointer-events: none;
+    color: #aaa;
+    opacity: 0.88;
+  }
+  /deep/ .lf-menu-item:hover {
+    background: #f3f3f3;
+  }
 }
 .status-item {
   border: 1px solid #eee;
@@ -961,35 +998,4 @@ export default {
   background: #898989;
   color: #fff;
 }
-</style>
-<style>
-/* .lf-menu {
-  position: absolute;
-  display: none;
-  background: #fff;
-  padding: 10px 0;
-  margin: 0 0 0 10px;
-  border-radius: 3px;
-  border: 1px solid #efefee;
-  width: 140px;
-}
-.lf-menu > li {
-  cursor: pointer;
-  list-style: none;
-  padding: 3px 12px;
-  font-size: 12px;
-  line-height: 18px;
-  cursor: pointer;
-  transition: all 120ms ease-in-out;
-  position: relative;
-}
-.lf-menu-item__disabled {
-  cursor: default;
-  pointer-events: none;
-  color: #aaa;
-  opacity: 0.88;
-}
-.lf-menu-item:hover {
-  background: #f3f3f3;
-} */
 </style>
