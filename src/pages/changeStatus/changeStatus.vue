@@ -33,8 +33,8 @@ export default {
   i18n: require('./i18n'),
   data() {
     return {
-      welcomeTextline1: '欢迎北京市交通委员会领导',
-      welcomeTextline2: '莅临考察调研',
+      welcomeTextline1: '热烈欢迎峰会各位领导',
+      welcomeTextline2: '莅临深圳全自动试验中心参观指导',
     };
   },
   computed: {

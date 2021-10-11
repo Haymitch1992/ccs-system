@@ -20,11 +20,11 @@
                 <a-select-option :value="2">水灾</a-select-option>
               </a-select>
             </a-form-item>
-            <div class="btn-line">
+            <!-- <div class="btn-line">
               <a-button type="primary">
                 确定
               </a-button>
-            </div>
+            </div> -->
           </div>
         </a-col>
         <a-col :sm="24" :md="24" :xl="16">
