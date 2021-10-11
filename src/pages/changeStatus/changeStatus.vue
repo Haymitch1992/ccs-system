@@ -729,6 +729,7 @@ export default {
         this.taskData.nodes[this.startNode].properties.customStatus = 'success';
         this.lf.render(this.taskData);
         this.progressVal += 4;
+        console.log(this.taskData.nodes[this.startNode].properties.deviceList);
         if (this.taskData.nodes[this.startNode].properties.deviceList) {
           this.$message.success(
             this.taskData.nodes[this.startNode].text + ' 运行成功！'
@@ -746,7 +747,7 @@ export default {
         if (this.startNode < runNodes) {
           console.log('当前是第几项', this.startNode);
           this.startNode++;
-          this.changeStatus();
+          this.changeStatus(str);
         } else {
           this.startNode = 0;
           this.showLog = true;
