@@ -126,7 +126,12 @@ import dataAlter from '../../components/taskAlter/dataAlter.vue';
 import taskData from '../../components/taskAlter/taskData.vue';
 
 import { nodeList } from './config';
-import { powerOff, powerOn } from '../../services/user.js';
+import {
+  powerOff,
+  powerOn,
+  getEmergent3,
+  getRecover,
+} from '../../services/user.js';
 export default {
   name: 'Demo',
   i18n: require('./i18n'),
@@ -720,6 +725,14 @@ export default {
     //   }, num);
     // },
     changeStatus(str) {
+      // 所有设备进入待机状态
+
+      if (this.startNode === 0) {
+        getEmergent3().then();
+      } else if (this.startNode === this.taskData.nodes.length - 1) {
+        getRecover().then();
+      }
+
       let runNodes = this.taskData.nodes.length - 1;
       let runTime = this.taskData.nodes[this.startNode].properties.deviceList
         ? 2000

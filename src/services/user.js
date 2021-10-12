@@ -11,7 +11,9 @@ import {
   SEND_SCENE,
   SEND_WELCOME_SCENE,
   POWER_ON,
-  POWER_OFF
+  POWER_OFF,
+  GET_EMERGENT3,
+  GET_RECOVER
 } from '@/services/api'
 import {request, METHOD, removeAuthorization} from '@/utils/request'
 
@@ -110,6 +112,15 @@ export async function customerFlow(start,end,interval) {
     interval:interval
   })
 }
+
+export async function getEmergent3() {
+  return request(GET_EMERGENT3, METHOD.GET, {})
+}
+// 感知报警
+export async function getRecover() {
+  return request(GET_RECOVER, METHOD.GET, {})
+}
+
 export default {
   login,
   logout,
@@ -125,5 +136,7 @@ export default {
   changeScene,
   powerOn,
   powerOff,
-  sendWelcomeScene // 切换场景
+  sendWelcomeScene, // 切换场景
+  getEmergent3,
+  getRecover
 }

@@ -16,6 +16,9 @@ module.exports = {
   SEND_SCENE: '/api/v1/device/platform_ws/send/',
   SEND_WELCOME_SCENE: '/api/v1/device/platform_ws/send/welcome_scene',
   POWER_ON: '/api/v1/device/platform_power/poweron',
-  POWER_OFF:'/api/v1/device/platform_power/poweroff'
+  POWER_OFF: '/api/v1/device/platform_power/poweroff',
+  GET_EMERGENT3: '/api/v1/device/platform_ats/waiting',// 感知报警 3级应急响应
+  // 停止紧急状态
+  GET_RECOVER: '/api/v1/device/platform_ats/recover',// 感知报警
   // 切换场景
 }
