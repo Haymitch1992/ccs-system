@@ -33,8 +33,8 @@ export default {
   i18n: require('./i18n'),
   data() {
     return {
-      welcomeTextline1: '热烈欢迎峰会各位领导',
-      welcomeTextline2: '莅临深圳全自动试验中心参观指导',
+      welcomeTextline1: '热烈欢迎峰会各位领导莅临',
+      welcomeTextline2: '深圳全自动试验中心参观指导',
     };
   },
   computed: {
