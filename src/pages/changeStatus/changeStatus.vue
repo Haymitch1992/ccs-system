@@ -98,10 +98,7 @@
         @close="onClose"
       >
         <task-data v-if="visible" :nodeData="clickNode" :lf="lf"></task-data>
-        <!-- 开启接口 -->
-        <!-- 关闭接口 -->
-        <!-- 当前顺序组 -->
-        <!--  -->
+ 
       </a-drawer>
       <pass-word
         v-if="passWordVisible"

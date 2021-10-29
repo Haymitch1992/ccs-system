@@ -1,0 +1,79 @@
+.new-page{
+  height: 100%;
+  // background-color: @base-bg-color;
+  border-radius: 4px;
+  //margin-top: -24px;
+  h1{
+    font-size: 48px;
+  }
+  .item-container{
+    background-color: @base-bg-color;
+    width: 100%;
+    padding: 16px;
+    margin-bottom: 16px;
+    .run-status-container{
+      background: linear-gradient(to right, #6a85e4,#857bf0);
+      height: 100px;
+      color: #fff;
+      padding: 20px;
+      font-size: 16px;
+      padding-top: 30px;
+      .device-title{
+        margin-right: 10px;
+      }
+      .device-status{
+        background-color: rgba(0,0,0,.2);
+        margin-left: 20px;
+        padding: 6px 10px;
+      }
+      /deep/ .ant-col-12:first-child:before {
+        content: '';
+        width: 1px;
+        height: 60px;
+        background: rgb(163, 176, 219);
+        position: absolute;
+        display: inline-block;
+        right: 0;
+        top: -10px;
+      }
+    }
+  }
+  .device-icon{
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: rgba(0,0,0,.2);
+    vertical-align: middle;
+    color: #fff;
+    line-height: 50px;
+    text-align: center;
+    font-size: 24px;
+    margin: 0 20px 0 60px ;
+  }
+  .strong-text{
+    color: #f69d6a;
+    font-style: normal;
+    margin: 0 4px;
+  }
+  .base-container{
+    background-color: #eff2fb;
+    padding: 20px 80px;
+    p{
+      text-align: center;
+      padding: 0;
+      line-height: 30px;
+      margin: 0;
+      color: #999;
+    }
+    .strong-device{
+      color: #333;
+      font-weight: bold;
+    }
+  }
+  .echarts-container{
+    background-color: #fff;
+    height: 440px;
+    width: 100%;
+  }
+}

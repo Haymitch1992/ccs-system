@@ -27,21 +27,21 @@ const options = {
       redirect: '/changeStatus',
       children: [
         {
+          path: 'consensus',
+          name: '概览',
+          meta: {
+            icon: 'container'
+          },
+          component: () => import('@/pages/overview')
+        },
+        {
           path: 'changeStatus',
           name: '一键开关站',
           meta: {
-            icon: 'file-ppt'
+            icon: 'control'
           },
           component: () => import('@/pages/changeStatus')
         },
-        // {
-        //   path: 'consensus',
-        //   name: '舆情分析管理',
-        //   meta: {
-        //     icon: 'file-ppt'
-        //   },
-        //   component: () => import('@/pages/demo')
-        // },
         // {
         //   path: 'log',
         //   name: '日志查看',
