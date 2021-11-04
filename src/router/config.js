@@ -42,6 +42,14 @@ const options = {
           },
           component: () => import('@/pages/changeStatus')
         },
+        {
+          path: 'camera',
+          name: '摄像头',
+          meta: {
+            icon: 'container'
+          },
+          component: () => import('@/pages/camera')
+        },
         // {
         //   path: 'log',
         //   name: '日志查看',

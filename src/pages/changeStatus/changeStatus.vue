@@ -98,7 +98,6 @@
         @close="onClose"
       >
         <task-data v-if="visible" :nodeData="clickNode" :lf="lf"></task-data>
- 
       </a-drawer>
       <pass-word
         v-if="passWordVisible"
@@ -904,6 +903,7 @@ export default {
   display: inline-block;
   border-radius: 2px;
   vertical-align: top;
+  cursor: pointer;
 }
 .setting-box {
   width: calc(100% - 200px);
@@ -956,6 +956,7 @@ export default {
   display: inline-block;
   border-radius: 2px;
   vertical-align: top;
+  cursor: pointer;
 }
 .new-page {
   padding: 20px;
