@@ -34,13 +34,25 @@
     </div>
     <div class="progress-line">
       <span>自检流程</span>
-      <span class="progress-status "></span>
+      <span
+        class="progress-status "
+        :class="startNode > 11 ? 'active' : ''"
+      ></span>
       <span>{{ stationStatus | stationZn2 }}运准备流程</span>
-      <span class="progress-status "></span>
+      <span
+        class="progress-status "
+        :class="startNode > 15 ? 'active' : ''"
+      ></span>
       <span>{{ stationStatus | stationZn2 }}运执行流程</span>
-      <span class="progress-status "></span>
+      <span
+        class="progress-status "
+        :class="startNode > 22 ? 'active' : ''"
+      ></span>
       <span>{{ stationStatus | stationZn }}站完成</span>
-      <span class="progress-status "></span>
+      <span
+        class="progress-status "
+        :class="startNode > 23 ? 'active' : ''"
+      ></span>
       <span class="float-text">
         <span class="text-margin-right-10">当前时间 00:00:00</span>
         <span>开站时间统计 00:0000</span>
@@ -65,12 +77,17 @@
       <span class="float-right-btn">
         <a-button size="small" class="task-btn-1">故障</a-button>
         <a-button size="small" class="task-btn-2">开启</a-button>
-        <a-button size="small" class="task-btn-3">未开启</a-button>
+        <a-button size="small" class="task-btn-3">关闭</a-button>
       </span>
     </div>
     <div class="pos-box">
       <!-- 节点面板 -->
-      <NodePanel v-if="lf" :lf="lf" :nodeList="nodeList"></NodePanel>
+      <NodePanel
+        v-if="lf"
+        :lf="lf"
+        :nodeList="nodeList"
+        @importData="importData"
+      ></NodePanel>
       <!-- 工具栏 -->
       <Control
         class="demo-control"
@@ -81,7 +98,11 @@
       <!-- 画布 -->
       <div id="container"></div>
       <!-- 日志 -->
-      <log-alter v-if="showLog" @closeModal="showLog = false"></log-alter>
+      <log-alter
+        :stationStatus="stationStatus"
+        v-if="showLog"
+        @closeModal="showLog = false"
+      ></log-alter>
       <!-- 数据 -->
       <data-alter
         :graphData="graphData"
@@ -94,10 +115,15 @@
         placement="right"
         :closable="false"
         :visible="visible"
-        :after-visible-change="afterVisibleChange"
         @close="onClose"
+        :after-visible-change="afterVisibleChange"
       >
-        <task-data v-if="visible" :nodeData="clickNode" :lf="lf"></task-data>
+        <task-data
+          v-if="visible"
+          @onClose="onClose"
+          :nodeData="clickNode"
+          :lf="lf"
+        ></task-data>
       </a-drawer>
       <pass-word
         v-if="passWordVisible"
@@ -137,7 +163,7 @@ export default {
       stationStatus: 0,
       // 节点
       visible: false,
-      clickNode: null,
+      clickNode: { name: 1 },
       graphData: null,
       showLog: false,
       dataVisible: false,
@@ -155,7 +181,8 @@ export default {
       startTime: '2021-09-28 05:00:00', // 只取时分秒
       endTime: '2021-09-28 21:00:00',
       lf: {},
-      taskData: {
+
+      taskData2: {
         nodes: [
           {
             id: 0,
@@ -188,7 +215,6 @@ export default {
               customStatus: 'empty',
             },
           },
-
           {
             id: 5,
             type: 'task',
@@ -340,85 +366,67 @@ export default {
             },
           },
           {
-            id: 22,
+            id: 18,
             type: 'task',
             x: 1040,
             y: 280,
-            text: '包柱屏',
+            text: '包柱屏设备',
             properties: {
               customStatus: 'empty',
               deviceList: ['pc_26'],
-            },
-          },
-          {
-            id: 23,
-            type: 'task',
-            x: 1040,
-            y: 340,
-            text: '引导屏',
-            properties: {
-              customStatus: 'empty',
-              deviceList: ['wzj_34', 'wzj_75', 'wzj_79', 'wzj_80'],
-            },
-          },
-          {
-            id: 24,
-            type: 'task',
-            x: 1040,
-            y: 400,
-            text: '手势识别屏',
-            properties: {
-              customStatus: 'empty',
-              deviceList: ['pc_180'],
-            },
-          },
-          {
-            id: 25,
-            type: 'task',
-            x: 1040,
-            y: 460,
-            text: '照明',
-            properties: {
-              customStatus: 'empty',
-              deviceList: ['light_all'],
-            },
-          },
-          {
-            id: 18,
-            type: 'task',
-            x: 1300,
-            y: 100,
-            text: '卷帘门',
-            properties: {
-              customStatus: 'empty',
+              executionTime: '2000',
+              region: 1,
+              desc: '位于2层展厅中心,用于展示站台信息和车辆信息',
             },
           },
           {
             id: 19,
             type: 'task',
-            x: 1300,
-            y: 160,
-            text: '生成报告',
+            x: 1040,
+            y: 340,
+            text: '引导屏设备',
             properties: {
               customStatus: 'empty',
+              deviceList: ['wzj_34', 'wzj_75', 'wzj_79', 'wzj_80'],
+              executionTime: '2000',
+              region: 1,
+              desc: '位于进出站闸机、展厅，起到乘客指引作用',
             },
           },
           {
             id: 20,
             type: 'task',
-            x: 1300,
-            y: 220,
-            text: 'PA通知',
+            x: 1040,
+            y: 400,
+            text: '引导屏设备',
             properties: {
               customStatus: 'empty',
+              deviceList: ['pc_180'],
+              executionTime: '2000',
+              region: 1,
+              desc: '通过算法识别不同的手势，进行页面内容的切换',
             },
           },
           {
             id: 21,
-            type: 'rect',
-            x: 1300,
-            y: 280,
-            text: '完成',
+            type: 'task',
+            x: 1040,
+            y: 460,
+            text: '灯带设备',
+            properties: {
+              customStatus: 'empty',
+              deviceList: ['light_all'],
+              executionTime: '2000',
+              region: 1,
+              desc: '位于2层展厅中心,整个展厅的灯光总开关',
+            },
+          },
+          {
+            id: 22,
+            type: 'task',
+            x: 1240,
+            y: 460,
+            text: '开站报告',
             properties: {
               customStatus: 'empty',
             },
@@ -511,19 +519,16 @@ export default {
             sourceNodeId: 7,
             targetNodeId: 11,
           },
-
           {
             type: 'polyline',
             sourceNodeId: 8,
             targetNodeId: 11,
           },
-
           {
             type: 'polyline',
             sourceNodeId: 9,
             targetNodeId: 11,
           },
-
           {
             type: 'polyline',
             sourceNodeId: 10,
@@ -564,53 +569,17 @@ export default {
             sourceNodeId: 16,
             targetNodeId: 17,
           },
-          // {
-          //   type: 'polyline',
-          //   sourceNodeId: 17,
-          //   targetNodeId: 18,
-          // },
-          // {
-          //   type: 'polyline',
-          //   sourceNodeId: 15,
-          //   targetNodeId: 18,
-          // },
-          // {
-          //   type: 'polyline',
-          //   sourceNodeId: 16,
-          //   targetNodeId: 18,
-          // },
-
           {
             type: 'polyline',
-            sourceNodeId: 25,
+            sourceNodeId: 17,
             targetNodeId: 18,
           },
-          // {
-          //   type: 'polyline',
-          //   sourceNodeId: 24,
-          //   targetNodeId: 18,
-          // },
-          // {
-          //   type: 'polyline',
-          //   sourceNodeId: 23,
-          //   targetNodeId: 18,
-          // },
-          // {
-          //   type: 'polyline',
-          //   sourceNodeId: 22,
-          //   targetNodeId: 18,
-          // },
-          // {
-          //   type: 'polyline',
-          //   sourceNodeId: 21,
-          //   targetNodeId: 18,
-          // },
-
           {
             type: 'polyline',
             sourceNodeId: 18,
             targetNodeId: 19,
           },
+
           {
             type: 'polyline',
             sourceNodeId: 19,
@@ -623,25 +592,14 @@ export default {
           },
           {
             type: 'polyline',
-            sourceNodeId: 17,
+            sourceNodeId: 21,
             targetNodeId: 22,
           },
-          {
-            type: 'polyline',
-            sourceNodeId: 22,
-            targetNodeId: 23,
-          },
-          {
-            type: 'polyline',
-            sourceNodeId: 23,
-            targetNodeId: 24,
-          },
-          {
-            type: 'polyline',
-            sourceNodeId: 24,
-            targetNodeId: 25,
-          },
         ],
+      },
+      taskData: {
+        edges: [],
+        nodes: [],
       },
       nodeList,
       startNode: 0,
@@ -666,19 +624,51 @@ export default {
       }
     },
   },
-  computed: {},
+  watch: {
+    taskData: (val) => {
+      console.log('发生变化');
+    },
+  },
+  computed: {
+    haveCheckNode() {
+      console.log('执行了吗');
+      let arr = this.taskData.nodes;
+      let outObj = {
+        visible: false,
+        status: 'empty',
+      };
+      arr.forEach((item) => {
+        console.log('执行了吗', item);
+        if (item === '自检流程') {
+          outObj.visible = true;
+          outObj.status =
+            item.properties.customStatus === 'empty' ? false : true;
+        }
+      });
+
+      return outObj;
+    },
+  },
   methods: {
+    // 导入一键开关站数据
+    importData() {
+      this.taskData = this.taskData2;
+      this.init();
+    },
     // 开站准备
     opneStationDialog() {
       this.stationStatus = 0;
       this.passWordVisible = true;
+      this.progressVal = 0;
     },
     closeStationDialog() {
       this.stationStatus = 1;
       this.passWordVisible = true;
+      this.progressVal = 0;
     },
     startTask() {
       this.passWordVisible = false;
+      this.$data.taskData = this.$data.lf.getGraphData();
       if (this.stationStatus === 1) {
         this.changeStatus('empty');
       } else {
@@ -722,7 +712,7 @@ export default {
     // },
     changeStatus(str) {
       // 所有设备进入待机状态
-
+      let stepNum = Math.floor(100 / this.taskData.nodes.length);
       if (this.startNode === 0) {
         getEmergent3().then();
       } else if (this.startNode === this.taskData.nodes.length - 1) {
@@ -730,18 +720,22 @@ export default {
       }
 
       let runNodes = this.taskData.nodes.length - 1;
-      let runTime = this.taskData.nodes[this.startNode].properties.deviceList
-        ? 2000
+      let runTime = this.taskData.nodes[this.startNode].properties.executionTime
+        ? this.taskData.nodes[this.startNode].properties.executionTime
         : 40;
       //  改为一次性定是任务
       this.timer = setTimeout(() => {
-        this.taskData.nodes[this.startNode].properties.customStatus = 'success';
+        // this.taskData.nodes[this.startNode].properties.customStatus = 'success';
+        this.lf.setProperties(this.taskData.nodes[this.startNode].id, {
+          customStatus: str,
+        });
+        this.taskData = this.lf.getGraphData();
         this.lf.render(this.taskData);
-        this.progressVal += 4;
+        this.progressVal = this.progressVal + stepNum;
         console.log(this.taskData.nodes[this.startNode].properties.deviceList);
         if (this.taskData.nodes[this.startNode].properties.deviceList) {
           this.$message.success(
-            this.taskData.nodes[this.startNode].text + ' 运行成功！'
+            this.taskData.nodes[this.startNode].text.value + ' 运行成功！'
           );
           if (str === 'success') {
             this.postPowerOn(
@@ -760,6 +754,7 @@ export default {
         } else {
           this.startNode = 0;
           this.showLog = true;
+          this.progressVal = 100;
         }
       }, runTime);
     },
@@ -811,7 +806,7 @@ export default {
       this.lf.render(this.taskData);
       this.$_LfEvent();
     },
-
+    // 选中当前节点
     $_LfEvent() {
       this.lf.on('node:click', ({ data }) => {
         console.log('node:click', data);
@@ -869,11 +864,14 @@ export default {
     display: inline-block;
     width: 18px;
     height: 18px;
-    background: radial-gradient(circle, #6cff52 0%, #1ebe00 100%);
+    background: radial-gradient(circle, #e9ebe8 0%, #7d7e7d 100%);
     border-radius: 50%;
     margin: 0 30px 0 6px;
     position: relative;
     top: 4px;
+  }
+  .progress-status.active {
+    background: radial-gradient(circle, #6cff52 0%, #1ebe00 100%);
   }
   .float-text {
     float: right;

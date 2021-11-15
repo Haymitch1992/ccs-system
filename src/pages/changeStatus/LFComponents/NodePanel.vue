@@ -1,26 +1,39 @@
 <template>
   <div class="node-panel">
-    <div
-      class="node-item"
-      v-for="item in nodeList"
-      :key="item.text"
-      @mousedown="$_dragNode(item)"
-    >
-      <!-- <div class="node-item-icon" :class="item.class">
+    <a-tabs default-active-key="1">
+      <a-tab-pane key="1" tab="场景库">
+        <ul class="model-list">
+          <li>
+            <div>
+              <span class="model-title">一键开站</span>
+              <a-button
+                style="float:right;"
+                size="small"
+                @click="importData()"
+                type="primary"
+                >应用</a-button
+              >
+            </div>
+          </li>
+        </ul>
+      </a-tab-pane>
+      <a-tab-pane key="2" tab="组件库" force-render>
         <div
-          v-if="item.type === 'user' || item.type === 'time'"
-          class="shape"
-        ></div>
-        
-      </div> -->
-      <div class="icon-box">
-        <a-icon type="book" v-if="item.type === 'rect'" />
-        <a-icon type="container" v-if="item.type === 'task'" />
-        <a-icon type="right-circle" v-if="item.type === 'circle'" />
-      </div>
+          class="node-item"
+          v-for="item in nodeList"
+          :key="item.text"
+          @mousedown="$_dragNode(item)"
+        >
+          <div class="icon-box">
+            <a-icon :type="item.nodeIcon" />
+          </div>
+          <span class="node-label">{{ item.text }}</span>
+        </div>
+      </a-tab-pane>
+    </a-tabs>
+    <!-- 模板 -->
 
-      <span class="node-label">{{ item.text }}</span>
-    </div>
+    <!-- 组件库 -->
   </div>
 </template>
 <script>
@@ -31,18 +44,37 @@ export default {
     nodeList: Array,
   },
   methods: {
+    importData() {
+      this.$emit('importData');
+    },
     $_dragNode(item) {
       this.$props.lf.dnd.startDrag({
         type: item.type,
+        text: item.text,
         properties: {
-          customStatus: 'empty',
+          ...item.properties,
         },
       });
     },
   },
 };
 </script>
-<style>
+<style lang="less">
+.model-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  // text-align: left;
+  li {
+    border: 1px solid #eee;
+    padding: 10px 10px;
+    border-radius: 4px;
+    text-align: left;
+  }
+  .model-title {
+    margin-right: 6px;
+  }
+}
 .icon-box {
   width: 100%;
   font-size: 24px;
@@ -51,7 +83,8 @@ export default {
   position: absolute;
   top: 100px;
   left: 20px;
-  width: 70px;
+  width: 200px;
+  height: 500px;
   padding: 20px 10px;
   background-color: white;
   box-shadow: 0 0 10px 1px rgb(228, 224, 219);
@@ -62,6 +95,9 @@ export default {
 .node-item {
   margin-bottom: 20px;
   color: #1890ff;
+  display: inline-block;
+  width: 80px;
+  height: 80px;
 }
 .node-item-icon {
   width: 30px;

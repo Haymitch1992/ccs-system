@@ -2,7 +2,7 @@
   <div>
     <a-modal
       v-model="visible"
-      title="开站报告"
+      title="关站报告"
       @ok="handleOk"
       @cancel="handleOk"
     >
