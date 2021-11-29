@@ -86,6 +86,7 @@
         v-if="lf"
         :lf="lf"
         :nodeList="nodeList"
+        :flowList="flowList"
         @importData="importData"
       ></NodePanel>
       <!-- 工具栏 -->
@@ -147,7 +148,8 @@ import passWord from '../../components/taskAlter/password.vue';
 import dataAlter from '../../components/taskAlter/dataAlter.vue';
 import taskData from '../../components/taskAlter/taskData.vue';
 
-import { nodeList } from './config';
+import { nodeList,flowList } from './config';
+
 import {
   powerOff,
   powerOn,
@@ -384,11 +386,11 @@ export default {
             type: 'task',
             x: 1040,
             y: 340,
-            text: '引导屏设备',
+            text: '识别屏设备',
             properties: {
               customStatus: 'empty',
               deviceList: ['wzj_34', 'wzj_75', 'wzj_79', 'wzj_80'],
-              executionTime: '2000',
+              executionTime: '3000',
               region: 1,
               desc: '位于进出站闸机、展厅，起到乘客指引作用',
             },
@@ -398,11 +400,11 @@ export default {
             type: 'task',
             x: 1040,
             y: 400,
-            text: '引导屏设备',
+            text: '灯带设备',
             properties: {
               customStatus: 'empty',
               deviceList: ['pc_180'],
-              executionTime: '2000',
+              executionTime: '4000',
               region: 1,
               desc: '通过算法识别不同的手势，进行页面内容的切换',
             },
@@ -412,11 +414,11 @@ export default {
             type: 'task',
             x: 1040,
             y: 460,
-            text: '灯带设备',
+            text: '引导屏设备',
             properties: {
               customStatus: 'empty',
               deviceList: ['light_all'],
-              executionTime: '2000',
+              executionTime: '8000',
               region: 1,
               desc: '位于2层展厅中心,整个展厅的灯光总开关',
             },
@@ -602,6 +604,7 @@ export default {
         nodes: [],
       },
       nodeList,
+      flowList,
       startNode: 0,
       timer: '',
     };

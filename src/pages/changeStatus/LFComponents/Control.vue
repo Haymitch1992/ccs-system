@@ -14,6 +14,10 @@
         <a-icon type="html5" />
         查看数据</a-button
       >
+      <a-button type="edit" size="small" @click="$_save">
+        <a-icon type="html5" />
+        保存场景</a-button
+      >
       <!-- <el-button type="plain" size="small" @click="$_zoomReset">大小适应</el-button>
       <el-button type="plain" size="small" @click="$_translateRest">定位还原</el-button>
       
@@ -47,6 +51,9 @@ export default {
     // });
   },
   methods: {
+    $_save() {
+      this.$store.commit('account/setSceneDiy', true);
+    },
     $_zoomIn() {
       this.$props.lf.zoom(true);
     },

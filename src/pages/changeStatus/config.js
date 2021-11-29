@@ -1,36 +1,43 @@
 export const nodeList = [
   {
-    type: 'circle',
     text: '开始',
-    class: 'node-push',
-    nodeIcon:'bulb',
+    type: 'rect',
+    class: 'node-rect',
+    nodeIcon:'apartment',
+    properties: {
+      customStatus: 'empty',
+    }
   },
   {
-    text: '自检流程',
+    text: '直扶梯',
     type: 'task',
     class: 'node-rect',
     nodeIcon:'apartment',
     properties: {
       customStatus: 'empty',
-      deviceList: [],
-      executionTime: '1000',
-      region: 1,
-      desc: '',
     }
   },
+
   {
-    text: '启运准备流程',
+    text: 'AFC',
     type: 'task',
     class: 'node-rect',
-    nodeIcon:'branches',
+    nodeIcon:'apartment',
     properties: {
       customStatus: 'empty',
-      deviceList: [''],
-      executionTime: '1000',
-      region: 1,
-      desc: '',
     }
   },
+
+  {
+    text: 'IPS',
+    type: 'task',
+    class: 'node-rect',
+    nodeIcon:'apartment',
+    properties: {
+      customStatus: 'empty',
+    }
+  },
+
   {
     text: '包柱屏设备',
     type: 'task',
@@ -91,11 +98,142 @@ export const nodeList = [
     properties: {
       customStatus: 'empty',
       deviceList: ['light_all'],
-      executionTime: '4000',
+      executionTime: '2000',
       region: 1,
       desc: '整个展厅的灯光总开关',
     }
   },
 ];
 
+// 流程组件
+// 事件组件
+export const flowList = [
+  {
+    text: 'PA自检程序',
+    type: 'task',
+    class: 'node-rect',
+    nodeIcon:'apartment',
+    properties: {
+      customStatus: 'empty',
+    }
+  },
+  {
+    text: 'PIS自检程序',
+    type: 'task',
+    class: 'node-rect',
+    nodeIcon:'apartment',
+    properties: {
+      customStatus: 'empty',
+    }
+  },
+  {
+    text: 'PSD自检程序',
+    type: 'task',
+    class: 'node-rect',
+    nodeIcon:'apartment',
+    properties: {
+      customStatus: 'empty',
+    }
+  },
+  {
+    text: 'IES自检程序',
+    type: 'task',
+    class: 'node-rect',
+    nodeIcon:'apartment',
+    properties: {
+      customStatus: 'empty',
+    }
+  },
+  {
+    text: 'AFC自检程序',
+    type: 'task',
+    class: 'node-rect',
+    nodeIcon:'apartment',
+    properties: {
+      customStatus: 'empty',
+    }
+  },
+  {
+    text: 'BAS自检程序',
+    type: 'task',
+    class: 'node-rect',
+    nodeIcon:'apartment',
+    properties: {
+      customStatus: 'empty',
+    }
+  },
+  {
+    text: 'AGS自检程序',
+    type: 'task',
+    class: 'node-rect',
+    nodeIcon:'apartment',
+    properties: {
+      customStatus: 'empty',
+    }
+  },
+  {
+    text: 'IPS自检程序',
+    type: 'task',
+    class: 'node-rect',
+    nodeIcon:'apartment',
+    properties: {
+      customStatus: 'empty',
+    }
+  },
+  {
+    text: '直梯扶梯系统自检程序',
+    type: 'task',
+    class: 'node-rect',
+    nodeIcon:'apartment',
+    properties: {
+      customStatus: 'empty',
+    }
+  },
+  {
+    text: '卷帘门系统自检程序',
+    type: 'task',
+    class: 'node-rect',
+    nodeIcon:'apartment',
+    properties: {
+      customStatus: 'empty',
+    }
+  },
+  {
+    text: 'PA广播系统自检程序',
+    type: 'task',
+    class: 'node-rect',
+    nodeIcon:'apartment',
+    properties: {
+      customStatus: 'empty',
+    }
+  },
+  {
+    text: 'PIS提示',
+    type: 'task',
+    class: 'node-rect',
+    nodeIcon:'apartment',
+    properties: {
+      customStatus: 'empty',
+    }
+  },
+  {
+    text: 'IPS开启巡站',
+    type: 'task',
+    class: 'node-rect',
+    nodeIcon:'apartment',
+    properties: {
+      customStatus: 'empty',
+    }
+  },
+  {
+    text: 'PA广播系统播放',
+    type: 'task',
+    class: 'node-rect',
+    nodeIcon:'apartment',
+    properties: {
+      customStatus: 'empty',
+    }
+  },
+
+]
 

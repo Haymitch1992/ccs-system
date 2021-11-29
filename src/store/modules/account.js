@@ -5,7 +5,8 @@ export default {
     permissions: null,
     roles: null,
     routesConfig: null,
-    stationStatus:1,// 1 正常 2 应急
+    stationStatus: 1,// 1 正常 2 应急
+    sceneDiy:false
   },
   getters: {
     user: state => {
@@ -75,6 +76,9 @@ export default {
     },
     setStationStatus(state, status) {
       state.stationStatus = status
+    },
+    setSceneDiy(state, status) {
+      state.sceneDiy = status
     }
   }
 }

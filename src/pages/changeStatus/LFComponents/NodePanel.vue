@@ -15,20 +15,48 @@
               >
             </div>
           </li>
+          <li v-if="this.$store.state.account.sceneDiy">
+            <div>
+              <span class="model-title">自定义场景1</span>
+              <a-button
+                style="float:right;"
+                size="small"
+                @click="importData()"
+                type="primary"
+                >应用</a-button
+              >
+            </div>
+          </li>
         </ul>
       </a-tab-pane>
       <a-tab-pane key="2" tab="组件库" force-render>
-        <div
-          class="node-item"
-          v-for="item in nodeList"
-          :key="item.text"
-          @mousedown="$_dragNode(item)"
-        >
-          <div class="icon-box">
-            <a-icon :type="item.nodeIcon" />
-          </div>
-          <span class="node-label">{{ item.text }}</span>
-        </div>
+        <ul class="model-list">
+          <li @click="showNode = !showNode">事件组件</li>
+          <li v-if="showNode">
+            <div
+              class="node-item"
+              v-for="item in nodeList"
+              :key="item.text"
+              @mousedown="$_dragNode(item)"
+            >
+              <span class="node-label">{{ item.text }}</span>
+            </div>
+          </li>
+          <li @click="showFlow = !showFlow">流程组件</li>
+          <li v-if="showFlow">
+            <div
+              class="node-item"
+              v-for="item in flowList"
+              :key="item.text"
+              @mousedown="$_dragNode(item)"
+            >
+              <span class="node-label">{{ item.text }}</span>
+            </div>
+          </li>
+          <li>算法组件</li>
+          <li>人员组件</li>
+          <li>可视化组件</li>
+        </ul>
       </a-tab-pane>
     </a-tabs>
     <!-- 模板 -->
@@ -39,9 +67,16 @@
 <script>
 export default {
   name: 'NodePanel',
+  data() {
+    return {
+      showFlow: false,
+      showNode: false,
+    };
+  },
   props: {
     lf: Object,
     nodeList: Array,
+    flowList: Array,
   },
   methods: {
     importData() {
@@ -70,6 +105,8 @@ export default {
     padding: 10px 10px;
     border-radius: 4px;
     text-align: left;
+    margin-bottom: 8px;
+    cursor: pointer;
   }
   .model-title {
     margin-right: 6px;
@@ -84,20 +121,18 @@ export default {
   top: 100px;
   left: 20px;
   width: 200px;
-  height: 500px;
+  height: 600px;
   padding: 20px 10px;
   background-color: white;
   box-shadow: 0 0 10px 1px rgb(228, 224, 219);
   border-radius: 6px;
   text-align: center;
   z-index: 101;
+  overflow-y: auto;
 }
 .node-item {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   color: #1890ff;
-  display: inline-block;
-  width: 80px;
-  height: 80px;
 }
 .node-item-icon {
   width: 30px;
